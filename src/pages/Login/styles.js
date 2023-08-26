@@ -47,5 +47,8 @@ export const login = StyleSheet.create({
   registerText:{
     color: "#FFFFFF",
     fontFamily: 'nunito',
+  },
+  actionCard:{
+    paddingTop:30
   }
 });
