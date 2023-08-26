@@ -4,6 +4,7 @@ import 'react-native-gesture-handler';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import Home from './pages/Home';
 import Laws from './pages/Laws';
+import Login from './pages/Login';
 
 const MyTheme = {
   ...DefaultTheme,
@@ -27,7 +28,11 @@ function CustomDrawerContent(props) {
         label="Laws"
         onPress={() => props.navigation.navigate('Laws')}
         labelStyle={{ color: '#FFF' }}
-        
+      />
+      <DrawerItem
+        label="Login"
+        onPress={() => props.navigation.navigate('Login')}
+        labelStyle={{ color: '#FFF' }}
       />
     </DrawerContentScrollView>
   );
@@ -47,6 +52,7 @@ function MyDrawer() {
     >
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="Laws" component={Laws} />
+      <Drawer.Screen name="Login" component={Login} />
     </Drawer.Navigator>
   );
 }
