@@ -1,29 +1,60 @@
-//imports
-
-import React from "react";
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import * as React from 'react';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import Home from './pages/Home';
+import Laws from './pages/Laws';
 
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: 'rgb(255, 45, 85)',
+  },
+};
 
 const Drawer = createDrawerNavigator();
 
+function CustomDrawerContent(props) {
+  return (
+    <DrawerContentScrollView {...props} style={{backgroundColor: '#EA9AB2' }}>
+      <DrawerItem
+        label="Home"
+        onPress={() => props.navigation.navigate('Home')}
+        labelStyle={{ color: '#FFF' }}
+      />
+      <DrawerItem
+        label="Laws"
+        onPress={() => props.navigation.navigate('Laws')}
+        labelStyle={{ color: '#FFF' }}
+        
+      />
+    </DrawerContentScrollView>
+  );
+}
+
 function MyDrawer() {
   return (
-    //content of menu.
-    <Drawer.Navigator initialRouteName="Home">
+    <Drawer.Navigator
+      initialRouteName="Home"
+      drawerContent={props => <CustomDrawerContent {...props} />}
+      screenOptions={{
+        drawerStyle: {
+          backgroundColor: '#c6cbef',
+          width: 240,
+        },
+      }}
+    >
       <Drawer.Screen name="Home" component={Home} />
+      <Drawer.Screen name="Laws" component={Laws} />
     </Drawer.Navigator>
   );
 }
-//here we show the menu DrawerNavigation.
+
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={MyTheme}>
       <MyDrawer />
     </NavigationContainer>
   );
 }
-
-
