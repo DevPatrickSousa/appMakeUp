@@ -23,10 +23,8 @@ export default function Login() {
               resizeMode="contain"
             />
           </View>
-          <View style={login.line}>
-            <Line></Line>
-          </View>
-          <View>
+          <Line/>
+          <View style={login.actionCard}>
             <InputComponent label="Email" placeholder="Digite o seu email" />
             <InputComponent label="Senha" placeholder="Digite a sua senha" />
             <ButtonComponent title="Efetuar login" onPress={UpdatingData} />
