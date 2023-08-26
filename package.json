@@ -12,6 +12,7 @@
     "@expo/webpack-config": "^18.1.2",
     "@react-navigation/drawer": "^6.6.3",
     "@react-navigation/native": "^6.1.7",
+    "@rneui/themed": "^4.0.0-rc.8",
     "axios": "^1.4.0",
     "expo": "~49.0.8",
     "expo-status-bar": "~1.6.0",
