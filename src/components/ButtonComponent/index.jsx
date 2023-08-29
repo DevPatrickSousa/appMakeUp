@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import {Feather as Icon} from '@expo/vector-icons'; 
 import { Button } from "@rneui/themed";
 import buttonStyle from './styles';
@@ -20,11 +20,10 @@ const ButtonComponent = (props) => {
                     shadowRadius: 4,
                     elevation: 1,
                     blurRadius: 4,
-                    textTransform:'uppercase'
                 }}
             >
                 {props.left &&(<Icon name="arrow-left" color="white" />)}
-                {props.title}
+                <Text style={buttonStyle.buttonText}>{props.title}</Text>
                 {props.right &&(<Icon name="arrow-right" color="white" />)}
             </Button>
     </View>
