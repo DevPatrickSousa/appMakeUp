@@ -5,6 +5,8 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import Home from './pages/Home';
 import Laws from './pages/Laws';
 import Login from './pages/Login';
+import Register from './pages/Register';
+import UsefulInformations from './pages/Useful_informations';
 
 const MyTheme = {
   ...DefaultTheme,
@@ -34,6 +36,16 @@ function CustomDrawerContent(props) {
         onPress={() => props.navigation.navigate('Login')}
         labelStyle={{ color: '#FFF' }}
       />
+      <DrawerItem
+        label="Register"
+        onPress={() => props.navigation.navigate('Register')}
+        labelStyle={{ color: '#FFF' }}
+      />
+      <DrawerItem
+        label="Useful Informations"
+        onPress={() => props.navigation.navigate('UsefulInformations')}
+        labelStyle={{ color: '#FFF' }}
+      />
     </DrawerContentScrollView>
   );
 }
@@ -53,6 +65,8 @@ function MyDrawer() {
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="Laws" component={Laws} />
       <Drawer.Screen name="Login" component={Login} />
+      <Drawer.Screen name="Register" component={Register} />
+      <Drawer.Screen name="UsefulInformations" component={UsefulInformations} />
     </Drawer.Navigator>
   );
 }
