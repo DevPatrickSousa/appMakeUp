@@ -40,6 +40,9 @@ const InputComponent = (props) => {
         label={props.label}
         placeholder={props.placeholder}
         onChange={props.onChange}
+        value={props.value}
+        secureTextEntry={props.secureTextEntry}
+        onChangeText={props.onChangeText}
       />
     </View>
   );
