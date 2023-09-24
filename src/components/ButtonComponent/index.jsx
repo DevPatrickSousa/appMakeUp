@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity} from 'react-native';
 import {Feather as Icon} from '@expo/vector-icons'; 
 import { Button } from "@rneui/themed";
 import buttonStyle from './styles';
@@ -22,11 +22,23 @@ const ButtonComponent = (props) => {
                     blurRadius: 4,
                 }}
             >
-                {props.left &&(<Icon name="arrow-left" color="white" />)}
-                <Text style={buttonStyle.buttonText}>{props.title}</Text>
-                {props.right &&(<Icon name="arrow-right" color="white" />)}
+                {props.left && (
+                    <TouchableOpacity onPress={props.onLeftIconPress}>
+                        <Icon name="arrow-left" color="white" size={24} />
+                    </TouchableOpacity>
+                )}
+                
+                <View style={buttonStyle.buttonTextContainer}>
+                    <Text style={buttonStyle.buttonText}>{props.title}</Text>
+                </View>
+                    
+                {props.right && (
+                    <TouchableOpacity onPress={props.onRightIconPress}>
+                        <Icon name="arrow-right" color="white" size={24} />
+                    </TouchableOpacity>
+                )}
             </Button>
-    </View>
+        </View>
     );
-  };
+};
 export default ButtonComponent;

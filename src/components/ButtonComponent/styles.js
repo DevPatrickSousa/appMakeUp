@@ -9,6 +9,10 @@ const buttonStyle = StyleSheet.create({
   buttonText:{
     textTransform: 'uppercase',
     color: '#FFF',
+  },
+  buttonTextContainer:{
+    flex: 1,
+    alignItems: 'center',
   }
 });
 
