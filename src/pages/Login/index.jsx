@@ -3,17 +3,16 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Image, Text } from 'react-native';
-import { Avatar } from 'react-native-paper';
 import InputComponent from '../../components/InputComponent/index';
 import ButtonComponent from "../../components/ButtonComponent/index";
 import { login } from './styles';
-import { Card } from '@rneui/themed';
 import Line from '../../components/Line';
+import { useNavigation } from '@react-navigation/native';
 export default function Login() {
   function UpdatingData() {
     alert('teste');
   }
-
+  const navigation = useNavigation();
   return (
       <View style={login.cardContainer}>
         <StatusBar style="auto" />
@@ -29,7 +28,7 @@ export default function Login() {
             <InputComponent label="Senha" placeholder="Digite a sua senha" />
             <ButtonComponent title="Efetuar login" onPress={UpdatingData} />
             <View style={login.registerContainer} >
-              <Text style={login.registerText} onPress={UpdatingData}>
+              <Text style={login.registerText} onPress={() => navigation.navigate('Register')}>
                 Não tem uma conta? Registre-se
               </Text>
             </View>
