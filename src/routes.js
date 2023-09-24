@@ -7,6 +7,7 @@ import Laws from './pages/Laws';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import UsefulInformations from './pages/Useful_informations';
+import Profile from './pages/Profile';
 
 const MyTheme = {
   ...DefaultTheme,
@@ -46,6 +47,11 @@ function CustomDrawerContent(props) {
         onPress={() => props.navigation.navigate('UsefulInformations')}
         labelStyle={{ color: '#FFF' }}
       />
+      <DrawerItem
+        label="Profile"
+        onPress={() => props.navigation.navigate('Profile')}
+        labelStyle={{ color: '#FFF' }}
+      />      
     </DrawerContentScrollView>
   );
 }
@@ -67,6 +73,9 @@ function MyDrawer() {
       <Drawer.Screen name="Login" component={Login} />
       <Drawer.Screen name="Register" component={Register} />
       <Drawer.Screen name="UsefulInformations" component={UsefulInformations} />
+      <Drawer.Screen name="Profile" component={Profile} />
+      
+            
     </Drawer.Navigator>
   );
 }
