@@ -3,21 +3,22 @@ import { StyleSheet } from 'react-native';
 export const register = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EA9AB2',
+    backgroundColor: '#e989ff',
     alignItems: 'center', 
     justifyContent: 'center',
   },
   cardContainer: {
     flex: 1,
-    backgroundColor: '#EA9AB2',
+    backgroundColor: '#e989ff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
   },
   avatarContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 150,
-    height: 150
+    width: 200,
+    height: 200,
+    marginBottom:35
   },
   avatar: {
     backgroundColor: '#FFF',
@@ -30,9 +31,8 @@ export const register = StyleSheet.create({
     paddingBottom:15
   },
   logo: {
-    resizeMode: 'cover',
-    width: '100%',
-    height: '100%',
+    width: 194,
+    height: 194,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -51,9 +51,35 @@ export const register = StyleSheet.create({
     color: "#FFFFFF",
     fontFamily: 'nunito',
   },
-  actionCard:{
-    paddingTop:30,
-    height:'auto',
-    width:'auto'
-  }
+  actionCard: {
+    width: 'auto',
+    maxHeight:400,
+    flex: 1,
+    backgroundColor: '#e989ff',
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#ffbbca',
+    elevation: 6,
+    minWidth: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 2,
+      height: 9,
+    },
+    shadowOpacity: 0.09,
+    shadowRadius: 3.45,
+  },
+  appMakeUp: {
+    
+  },
+  textAppMakeUp:{
+    color: '#FFF',
+    fontFamily: 'Roboto',
+    fontSize:40,
+    textShadowColor: '#8025b7', 
+    textShadowOffset: { width: 2, height: 2 }, 
+    textShadowRadius: 5,
+  },
 });

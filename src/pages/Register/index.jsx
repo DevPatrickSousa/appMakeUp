@@ -8,11 +8,12 @@ import ButtonComponent from "../../components/ButtonComponent/index";
 import { register } from './styles';
 import Line from '../../components/Line';
 import api from '../../../services/api';
-import {AUTHENTICATION} from '@env';
+import {AUTHENTICATION, CONTENT_TYPE} from '@env';
 import LoadingComponent from "../../components/LoadingComponent/index";
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { validateName, validateAge, validateEmail, validateNumber } from '../../utils/filters';
+import { fetchToken, getToken, removeToken } from '../../utils/auth';
 
 export default function Register() {
 
@@ -21,20 +22,8 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [number, setNumber] = useState('');
-  const [token, setToken] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-
-  async function getToken() {
-    let tokenOptions = { headers: { "authentication": AUTHENTICATION }}
-    await api.get('/getToken?t=4dm1n', tokenOptions)
-      .then((res) => {
-        const token = res.data.token;
-        setToken(token);
-      }).catch((error) => {
-        console.log(error);
-      })
-  }
 
   function goToHomePage() {
     navigation.navigate('Home');
@@ -49,7 +38,6 @@ export default function Register() {
   }
 
   async function userRegister() {
-    // Formatar o número de telefone se necessário
   
     if (!validateName(userName)){
       Toast.show({
@@ -64,7 +52,7 @@ export default function Register() {
       Toast.show({
         type: 'error',
         text1: 'Erro!',
-        text2: 'Idade deve ter no máximo 2 caracteres.'
+        text2: 'Idade deve ter no máximo 2 números.'
       });
       return;
     }
@@ -97,7 +85,10 @@ export default function Register() {
     }
 
     setLoading(true);
-    let option = { headers: { 'Content-Type': 'application/json', 'authorization': 'Bearer ' + token } }
+
+    const token = await fetchToken();
+
+    let option = { headers: { 'Content-Type': [CONTENT_TYPE], 'authorization': 'Bearer ' + token } }
   
     const data = {
       nome: userName,
@@ -126,32 +117,33 @@ export default function Register() {
           text1: 'Erro ao cadastrar usuário!!',
           text2: 'Verifique se todos os campos foram preenchidos corretamente.'
         });
+        removeToken();
       })
       .finally(() => {
         setLoading(false);
-      });
+      })
   }
-  
-  useEffect(() => {
-    getToken();
-  }, []);
 
   return (
       <View style={register.cardContainer}>
         <StatusBar style="auto" />
-          <View style={register.avatarContainer}>
-            <Image source={require('../../../assets/testeIcon.png')}
-              style={register.logo}
-            />
-          </View>
-          <Line/>
+        <View style={register.avatarContainer}>
+          <Image source={require('../../../assets/logoMaybePurple.png')}
+            style={register.logo}
+          />
+          <View style={register.appMakeUp}>
+          <Text style={register.textAppMakeUp}>
+            AppMakeUp
+          </Text>
+        </View>
+        </View>
           <View style={register.actionCard}>
-            <InputComponent label="Nome" placeholder="Digite o seu Nome" value={userName} onChangeText={(text) => setName(text)} />
-            <InputComponent label="Idade" placeholder="Digite a sua Idade" value={age} onChangeText={(text) => setAge(text)} />
-            <InputComponent label="Email" placeholder="Digite o seu email" value={email} onChangeText={(text) => setEmail(text)} />
-            <InputComponent label="Senha" placeholder="Digite a sua senha" secureTextEntry={true} value={password} onChangeText={(text) => setPassword(text)} />
-            <InputComponent label="Telefone" placeholder="Digite o seu telefone" value={number} onChangeText={(text) => setNumber(text)} />
-            <ButtonComponent title="Cadastrar" onPress={userRegister}/>
+            <InputComponent  minHeight='40px' placeholder="Digite o seu Nome" value={userName} onChangeText={(text) => setName(text)} />
+            <InputComponent  minHeight='40px' placeholder="Digite a sua Idade" inputMode={'numeric'} value={age} onChangeText={(text) => setAge(text)} />
+            <InputComponent  minHeight='40px' placeholder="Digite o seu email" value={email} onChangeText={(text) => setEmail(text)} />
+            <InputComponent  minHeight='40px' placeholder="Digite a sua senha" secureTextEntry={true} value={password} onChangeText={(text) => setPassword(text)} />
+            <InputComponent  minHeight='40px' placeholder="Digite o seu telefone" inputMode={'numeric'} value={number} onChangeText={(text) => setNumber(text)} />
+            <ButtonComponent minHeight='55px' minWidth='168px' backgroundColor='#e989ff' borderColor='#ffbbca' title="Cadastrar" onPress={userRegister}/>
             <View>
             <LoadingComponent visible={loading}/>
             </View>
