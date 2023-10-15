@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^18.1.2",
+    "@react-native-async-storage/async-storage": "^1.19.3",
+    "@react-navigation/bottom-tabs": "^6.5.9",
     "@react-navigation/drawer": "^6.6.3",
+    "@react-navigation/material-bottom-tabs": "^6.2.17",
     "@react-navigation/native": "^6.1.7",
     "@rneui/themed": "^4.0.0-rc.8",
     "axios": "^1.4.0",
@@ -26,6 +29,7 @@
     "react-native-paper": "^5.10.6",
     "react-native-reanimated": "~3.3.0",
     "react-native-toast-message": "^2.1.6",
+    "react-native-vector-icons": "^10.0.0",
     "react-native-web": "~0.19.6"
   },
   "devDependencies": {
