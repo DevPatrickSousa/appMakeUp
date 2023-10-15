@@ -2,30 +2,29 @@ import { StyleSheet } from 'react-native';
 
 export const UsefulInformationsStyles = StyleSheet.create({
     container: {
-        backgroundColor: '#EA9AB2',
+        backgroundColor: '#e989ff',
         alignItems: 'center',
         justifyContent: 'space-evenly',
         width: '100%',
         height: '100%',
+        
     },
     cardContainer: {
-        width: '100%',
+        width: 'auto',
+        height:'auto',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingHorizontal: 10,
     },
     card: {
-        display: 'flex',
-        width: '100%',
+        flex:1,
+        width: 'auto',
         maxWidth: 'auto',
-        minHeight:100,
-        minWidth:360, 
-        backgroundColor: '#EA9AB2',
+        backgroundColor: '#FFFF',
         borderWidth: 1,
         borderRadius: 10,
         alignItems: 'center', 
         justifyContent: 'center', 
-        borderColor: '#FFF',
+        borderColor: '#FFFF',
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -39,6 +38,8 @@ export const UsefulInformationsStyles = StyleSheet.create({
     text: {
         color: "#FFFFFF",
         fontFamily: 'nunito',
+        marginVertical:15,
+        textAlign:'center'
     },
     cardContent: {
         color: "#FFFFFF",
@@ -57,6 +58,7 @@ export const UsefulInformationsStyles = StyleSheet.create({
         fontFamily: 'Nunito-MediumItalic',
         cursor: 'pointer',
         fontSize: 20,
+        padding:15
     },
     importantText: {
         color: "#ed188a",
@@ -65,8 +67,23 @@ export const UsefulInformationsStyles = StyleSheet.create({
     title: {
         color: "#FFFFFF",
         fontFamily: 'nunito',
-        
-        padding: 14,
-        marginLeft:0
+        marginLeft:0,
+        padding:15
     },
+    cardContainerStyle:{
+        backgroundColor: '#b557db',
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor:'#FFFF',
+        alignItems:'center',
+    },
+    cardImage:{
+        height:100,
+        resizeMode:'cover',
+        maxWidth:'100%',
+        borderRadius:10
+    },
+    buttonContainer:{
+        marginVertical:15
+    }
 });
