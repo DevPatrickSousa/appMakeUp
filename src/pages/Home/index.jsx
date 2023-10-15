@@ -16,35 +16,44 @@ export default function Home() {
   });
 
   const navigation = useNavigation();
+
   function goToProfilePage() {
     navigation.navigate('Profile');
   }
+  
+  function goToUsefulInformations(){
+    navigation.navigate('UsefulInformations')
+  }
+
   return (
     <View style={home.container}> 
       <StatusBar style="auto" />
       <Avatar
         size={32}
         source={require('../../../assets/info.png')}
-        onPress={() => console.log('teste')}
+        onPress={goToUsefulInformations}
         containerStyle={home.info}
       />
 
+      <View style={home.avatarContainer}>
+        <Image source={require('../../../assets/logoMaybePurple.png')}
+          style={home.logo}
+        />
+        <View style={home.appMakeUp}>
+          <Text style={home.textAppMakeUp}>
+            AppMakeUp
+          </Text>
+        </View>
+      </View>
 
-      <Image source={require('../../../assets/testeIcon.png')}
-        style={home.logo}
-      />
       <TouchableOpacity onPress={() => navigation.navigate('EmergencyContacts')}>
-        <Card containerStyle={home.card}
-        >
-
+        <Card containerStyle={home.card}>
           <Avatar
             size={32}
-
             source={require('../../../assets/mascara.png')}
-
           />
-          <Card.Title style={home.title}>Tutorial de primeira MakeUp</Card.Title>
 
+          <Card.Title style={home.title}>Tutorial de primeira MakeUp</Card.Title>
 
           <Text style={home.text}>
             Veja como fazer maquiagem
@@ -52,32 +61,25 @@ export default function Home() {
             dicas a seguir para fazer uma
             maquiagem para a noite e para o dia.
           </Text>
-
-
-
         </Card>
       </TouchableOpacity>
-
+      
       <TouchableOpacity onPress={() => alert('teste')} style={home.hoverButton}>
-
-        <Card containerStyle={home.card} onPress={() => alert('teste')}
-        >
+        <Card containerStyle={home.card} onPress={() => alert('teste')}>
           <Avatar
             size={32}
             source={require('../../../assets/powder.png')}
             iconStyle={home.powder}
           />
-          <Card.Title style={home.title}>Grave seus passos a passos</Card.Title>
 
+          <Card.Title style={home.title}>Grave seus passos a passos</Card.Title>
 
           <Text style={home.text}>
             Faça você mesmo os passos de como fazer uma Makeup,
             podendo indicar também se essa maquiagem é para o dia ou para a noite.
           </Text>
-
         </Card>
       </TouchableOpacity>
-
     </View>
   );
 }

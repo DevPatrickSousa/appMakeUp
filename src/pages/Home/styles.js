@@ -3,17 +3,27 @@ import { StyleSheet } from 'react-native';
 export const home = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EA9AB2',
+    backgroundColor: '#e989ff',
     alignItems: 'center',
     justifyContent: 'center',
 
   },
+  avatarContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 250,
+    height: 250,
+    
+  },
   card: {
-    width: 327,
-    height: 182,
-    backgroundColor: '#EA9AB2',
+    height:'auto',
+    width:'auto',
+    minWidth: 300,
+    minHeight: 150,
+    backgroundColor: '#e989ff',
     borderWidth: 1,
     borderRadius: 10,
+    borderColor:'#FFFF'
   },
   title: {
     color: "#FFFFFF",
@@ -51,6 +61,17 @@ export const home = StyleSheet.create({
     justifyContent: 'flex-start',
     marginRight: 320,
     top: 5
-  }
+  },
+  appMakeUp: {
+    
+  },
+  textAppMakeUp:{
+    color: '#FFF',
+    fontFamily: 'Roboto',
+    fontSize:40,
+    textShadowColor: '#8025b7', 
+    textShadowOffset: { width: 2, height: 2 }, 
+    textShadowRadius: 5,
+  },
 
 });
