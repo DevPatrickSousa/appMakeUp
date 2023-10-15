@@ -2,17 +2,17 @@ import { StyleSheet } from 'react-native';
 
 export const laws = StyleSheet.create({
     container: {
-        backgroundColor: '#EA9AB2',
+        backgroundColor: '#e989ff',
         alignItems: 'center',
         justifyContent: 'space-evenly',
         width: '100%',
         height: '100%',
     },
     cardContainer: {
-        width: '100%',
+        width: 'auto',
+        height:'auto',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingHorizontal: 10,
     },
     card: {
         display: 'flex',
@@ -20,7 +20,7 @@ export const laws = StyleSheet.create({
         maxWidth: 'auto',
         minHeight:200,
         minWidth:360, 
-        backgroundColor: '#EA9AB2',
+        backgroundColor: '#e989ff',
         borderWidth: 1,
         borderRadius: 10,
         alignItems: 'center', 
@@ -39,6 +39,8 @@ export const laws = StyleSheet.create({
     text: {
         color: "#FFFFFF",
         fontFamily: 'nunito',
+        marginVertical:15,
+        textAlign:'center'
     },
     cardContent: {
         color: "#FFFFFF",
@@ -59,7 +61,7 @@ export const laws = StyleSheet.create({
         fontSize: 20,
     },
     importantText: {
-        color: "#ed188a",
+        color: "#8025b7",
         fontFamily: 'OpenSans',
     },
     title: {
@@ -67,5 +69,18 @@ export const laws = StyleSheet.create({
         fontFamily: 'nunito',
         textAlign: 'center',
         padding: 14,
+    },
+    cardContainerStyle:{
+        backgroundColor: '#b557db',
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor:'#FFFF',
+        alignItems:'center',
+    },
+    cardImage:{
+        height:170,
+        resizeMode:'cover',
+        maxWidth:'100%',
+        borderRadius:10
     },
 });

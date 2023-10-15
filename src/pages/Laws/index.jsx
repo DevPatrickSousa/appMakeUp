@@ -1,14 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView, Text, View, SafeAreaView, Dimensions } from 'react-native';
 import { useFonts } from 'expo-font';
-import * as React from 'react';
+import React, { useState } from 'react';
 import { laws } from './styles';
-import Line from '../../components/Line';
+import {  Card } from '@rneui/themed';
+import ButtonComponent from '../../components/ButtonComponent';
 
 export default function Laws() {
 
     //import fonts
-
     const [loaded] = useFonts({
         nunito: require('../../fonts/Nunito-VariableFont_wght.ttf'),
         nunitoItalic: require('../../fonts/Nunito-Italic-VariableFont_wght.ttf'),
@@ -16,73 +16,64 @@ export default function Laws() {
         OpenSans: require('../../fonts/OpenSans-VariableFont_wdth,wght.ttf')
     });
 
+    //texts states
+    const [myFirstText, setMyFirstText] = useState("Lei Maria da Penha");
+    const [mySecondText, setMySecondText] = useState("Lei Carolina Dieckmann");
+    const [myThirdText, setMyThirdText] = useState("Lei Joana Maranhão");
+
+    //images states
+    const [FirstImageSource, setMyFirstImageSource] = useState(require('/assets/mariaPenha.jpeg'));
+    const [SecondImageSource, setMySecondImageSource] = useState(require('/assets/carolina-d.jpg'));
+    const [ThirdImageSource, setMyThirdImageSource] = useState(require('/assets/leiJoannaMaranhao.png'));
+
     return (
         <SafeAreaView style={laws.container}>
             <StatusBar style="auto" />
-
             <ScrollView contentContainerStyle={laws.scrollViewContainer}>
-                <View style={laws.cardContainer}>
-                    <ScrollView contentContainerStyle={laws.card}>
-                        <Text style={laws.title}>
-                            Lei Maria da Penha <Text style={laws.importantText}>(11.340/2006)</Text>
-                        </Text>
-                        <Line/>
-                        <Text style={laws.cardContent} h2>
-                            Cria mecanismos para coibir a violência doméstica e familiar contra a mulher e estabelece medidas de assistência e proteção.
-                        </Text>
-                    </ScrollView>
-                </View>
+            <View style={laws.cardContainer}>
+                <Card containerStyle={laws.cardContainerStyle}>
+                    <Card.Title style={laws.title}>{myFirstText} <Text style={laws.importantText}>(11.340/2006)</Text></Card.Title>
+                    <Card.Divider color='#FFFF'/>
+                    <Card.Image
+                                style={laws.cardImage}  
+                                source={FirstImageSource}
+                            />
+                    <Text style={laws.text}>
+                    Cria mecanismos para coibir a violência doméstica e familiar contra a mulher e estabelece medidas de assistência e proteção.
+                    </Text>
+                    <ButtonComponent minHeight='40px' minWidth='168px' backgroundColor='#e989ff' borderColor='#ffbbca' title="Saiba mais" />
+                </Card>
+            </View>
 
-                <View style={laws.cardContainer}>
-                    <ScrollView contentContainerStyle={laws.card}>
-                    <Text style={laws.title}>
-                        Lei Carolina Dieckmann <Text style={laws.importantText}>(12.737/2012)</Text>
-                        </Text>
-                        <Line/>
-                        <Text style={laws.cardContent} h2>
-                            Tornou crime a invasão de aparelhos eletrônicos para obtenção de dados particulares.
-                        </Text>
-                    </ScrollView>
-                </View>
+            <View style={laws.cardContainer}>
+                <Card containerStyle={laws.cardContainerStyle}>
+                    <Card.Title style={laws.title}>{mySecondText} <Text style={laws.importantText}>(11.340/2006)</Text></Card.Title>
+                    <Card.Divider color='#FFFF'/>
+                    <Card.Image
+                                style={laws.cardImage}  
+                                source={SecondImageSource}
+                            />
+                    <Text style={laws.text}>
+                    Cria mecanismos para coibir a violência doméstica e familiar contra a mulher e estabelece medidas de assistência e proteção.
+                    </Text>
+                    <ButtonComponent minHeight='40px' minWidth='168px' backgroundColor='#e989ff' borderColor='#ffbbca' title="Saiba mais" />
+                </Card>
+            </View>
 
-                <View style={laws.cardContainer}>
-                    <ScrollView contentContainerStyle={laws.card}>
-                        <Text style={laws.title}>
-                            Lei Joana Maranhão <Text style={laws.importantText}>(12.650/2015)</Text>
-                        </Text>
-                        <Line/>
-                        <Text style={laws.cardContent} h2>
-                        Alterou os prazos quanto a prescrição de crimes de abusos sexuais de crianças e adolescentes.
-                        A prescrição passou a valer após a vítima completar 18 anos, e o prazo para denúncia aumentou para 20 anos.
-                        </Text>
-                    </ScrollView>
-                </View>
-
-                <View style={laws.cardContainer}>
-                    <ScrollView contentContainerStyle={laws.card}>
-                        <Text style={laws.title}>
-                            Lei Joana Maranhão <Text style={laws.importantText}>(12.650/2015)</Text>
-                        </Text>
-                        <Line/>
-                        <Text style={laws.cardContent} h2>
-                        Alterou os prazos quanto a prescrição de crimes de abusos sexuais de crianças e adolescentes.
-                        A prescrição passou a valer após a vítima completar 18 anos, e o prazo para denúncia aumentou para 20 anos.
-                        </Text>
-                    </ScrollView>
-                </View>
-
-                <View style={laws.cardContainer}>
-                    <ScrollView contentContainerStyle={laws.card}>
-                        <Text style={laws.title}>
-                            Lei Joana Maranhão <Text style={laws.importantText}>(12.650/2015)</Text>
-                        </Text>
-                        <Line/>
-                        <Text style={laws.cardContent} h2>
-                        Alterou os prazos quanto a prescrição de crimes de abusos sexuais de crianças e adolescentes.
-                        A prescrição passou a valer após a vítima completar 18 anos, e o prazo para denúncia aumentou para 20 anos.
-                        </Text>
-                    </ScrollView>
-                </View>
+            <View style={laws.cardContainer}>
+                <Card containerStyle={laws.cardContainerStyle}>
+                    <Card.Title style={laws.title}>{myThirdText} <Text style={laws.importantText}>(11.340/2006)</Text></Card.Title>
+                    <Card.Divider color='#FFFF'/>
+                    <Card.Image
+                                style={laws.cardImage}  
+                                source={ThirdImageSource}
+                            />
+                    <Text style={laws.text}>
+                    Cria mecanismos para coibir a violência doméstica e familiar contra a mulher e estabelece medidas de assistência e proteção.
+                    </Text>
+                    <ButtonComponent minHeight='40px' minWidth='168px' backgroundColor='#e989ff' borderColor='#ffbbca' title="Saiba mais" />
+                </Card>
+            </View>
             </ScrollView>
         </SafeAreaView>
     );
