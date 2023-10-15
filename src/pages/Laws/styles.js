@@ -69,6 +69,7 @@ export const laws = StyleSheet.create({
         fontFamily: 'nunito',
         textAlign: 'center',
         padding: 14,
+        fontSize:14
     },
     cardContainerStyle:{
         backgroundColor: '#b557db',

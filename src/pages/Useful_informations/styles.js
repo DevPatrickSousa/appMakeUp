@@ -68,7 +68,8 @@ export const UsefulInformationsStyles = StyleSheet.create({
         color: "#FFFFFF",
         fontFamily: 'nunito',
         marginLeft:0,
-        padding:15
+        padding:15,
+        fontSize:14
     },
     cardContainerStyle:{
         backgroundColor: '#b557db',
