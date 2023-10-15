@@ -7,28 +7,19 @@ import { color } from 'react-native-reanimated';
 const InputComponent = (props) => {
 
   return (
-    <View>
       <Input 
         inputContainerStyle={{
-          flexDirection: 'column',
-          minWidth: 327,
-          minHeight: 56,
-          maxWidth: 327,
-          maxHeight: 56,
+          minWidth:props.minWidthContainer,
+          maxWidth:'100%',
           borderColor: 'white',
           color: 'white',
           borderWidth: 1,
           borderRadius:10
         }}
         inputStyle={{
-          justifyContent: 'center',
-          alignContent: 'center',
           textAlign: 'center',
-          alignItems: 'center',
-          minWidth: 327,
-          minHeight: 56,
-          maxWidth: 327,
-          maxHeight: 56,
+          minWidth: props.minWidth,
+          minHeight: props.minHeight,
           color: 'white',
         }}
         labelStyle={{
@@ -36,15 +27,15 @@ const InputComponent = (props) => {
           textAlign: 'left',
           color: 'red',
         }}
-        placeholderTextColor="#E27396"
+        placeholderTextColor="#cf70ed"
         label={props.label}
         placeholder={props.placeholder}
         onChange={props.onChange}
         value={props.value}
         secureTextEntry={props.secureTextEntry}
         onChangeText={props.onChangeText}
+        inputMode={props.inputMode}
       />
-    </View>
   );
 };
 
