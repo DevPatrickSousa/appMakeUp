@@ -1,41 +1,90 @@
 //imports
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Image, Text } from 'react-native';
 import InputComponent from '../../components/InputComponent/index';
 import ButtonComponent from "../../components/ButtonComponent/index";
-import { login } from './styles';
+import { loginStyles } from './styles'
 import Line from '../../components/Line';
 import { useNavigation } from '@react-navigation/native';
+import {AUTHENTICATION, CONTENT_TYPE} from '@env';
+import api from '../../../services/api';
+import LoadingComponent from "../../components/LoadingComponent/index";
+import Toast from 'react-native-toast-message';
+import { validateName, validateAge, validateEmail, validateNumber } from '../../utils/filters';
+import { fetchToken, getToken, removeToken } from '../../utils/auth';
+import { Card } from '@rneui/themed';
+
 export default function Login() {
-  function UpdatingData() {
-    alert('teste');
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  function goToHomePage() {
+    navigation.navigate('Home');
   }
+
+  async function login(){
+    setLoading(true);
+    const token = await fetchToken();
+
+    let option = { headers: { 'Content-Type': [CONTENT_TYPE], 'authorization': 'Bearer ' + token } }
+
+    const data = {
+      email:email,
+      senha:password
+    }
+
+    await api.post('/login?key=4dm1n', data, option)
+      .then((res) => {
+          goToHomePage();
+      })
+      .catch((error) => {
+        console.log(error);
+        Toast.show({
+          type: 'error',
+          text1: 'Erro ao realizar login!',
+          text2: 'Verifique se o email e a senha estão corretos.'
+        });
+        removeToken();
+      })
+      .finally(() => {
+        setLoading(false);
+      })
+  }
+
   const navigation = useNavigation();
   return (
-      <View style={login.cardContainer}>
-        <StatusBar style="auto" />
-          <View style={login.avatarContainer}>
-            <Image source={require('../../../assets/testeIcon.png')}
-              style={login.logo}
-              resizeMode="contain"
-            />
+    <View style={loginStyles.cardContainer}>
+      <StatusBar style="auto" />
+        <View style={loginStyles.avatarContainer}>
+          <Image source={require('../../../assets/logoMaybePurple.png')}
+            style={loginStyles.logo}
+          />
+          <View style={loginStyles.appMakeUp}>
+          <Text style={loginStyles.textAppMakeUp}>
+            AppMakeUp
+          </Text>
+        </View>
+        </View>
+        
+        <View style={loginStyles.actionCard}>
+          <InputComponent minHeight='55px' placeholder="Digite o seu email" value={email} onChangeText={(text) => setEmail(text)} />
+          <InputComponent minHeight='55px' placeholder="Digite a sua senha" secureTextEntry={true} value={password} onChangeText={(text) => setPassword(text)} />
+          <ButtonComponent minHeight='55px' minWidth='168px' backgroundColor='#e989ff' borderColor='#ffbbca' title="Login" onPress={login}/>
+          <View>
+          <LoadingComponent visible={loading}/>
           </View>
-          <Line/>
-          <View style={login.actionCard}>
-            <InputComponent label="Email" placeholder="Digite o seu email" />
-            <InputComponent label="Senha" placeholder="Digite a sua senha" />
-            <ButtonComponent title="Efetuar login" onPress={UpdatingData} />
-            <View style={login.registerContainer} >
-              <Text style={login.registerText} onPress={() => navigation.navigate('Register')}>
-                Não tem uma conta? Registre-se
-              </Text>
-            </View>
+          <View style={loginStyles.registerContainer}>
+            <Text style={loginStyles.registerText} onPress={() => navigation.navigate('Register')}>
+              Não possui uma conta? registre-se.
+            </Text>
           </View>
-      </View>
-    
-  );
+        </View>
+    </View>
+);
 }
 
 
