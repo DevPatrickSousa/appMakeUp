@@ -2,17 +2,22 @@ import { StyleSheet } from 'react-native';
 
 const buttonStyle = StyleSheet.create({
   buttonContainer: {
-    alignItems: 'center',
     justifyContent: 'center',
-    marginVertical:10
+    marginVertical:10,
+    justifyContent:'space-between',
+    flexDirection:'row',
+    alignSelf: 'center',
   },
   buttonText:{
     textTransform: 'uppercase',
     color: '#FFF',
+    fontFamily:'OpenSans'
   },
   buttonTextContainer:{
     flex: 1,
-    alignItems: 'center',
+    justifyContent: 'center',
+    alignItems:'center',
+    letterSpacing:2
   }
 });
 

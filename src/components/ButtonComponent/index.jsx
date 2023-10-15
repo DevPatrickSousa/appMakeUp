@@ -6,20 +6,31 @@ import buttonStyle from './styles';
 
 const ButtonComponent = (props) => {
     return (
-        <View style={buttonStyle.buttonContainer}>
             <Button 
                 onPress={props.onPress}
-                buttonStyle={{
-                    backgroundColor: '#E27396',
-                    borderWidth: 0,
-                    borderRadius: 12,
-                    width: 327,
-                    height: 56,
-                    shadowOffset : { width: 0, height: 4},
-                    shadowOpacity: 0.25,
-                    shadowRadius: 4,
+                containerStyle={{
+                    minWidth:props.minWidthContainer,
+                    maxWidth:'100%',
+                    color: 'white',
+                    borderRadius:10,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.6,
+                    shadowRadius: 3,
                     elevation: 1,
                     blurRadius: 4,
+                    alignSelf:'center'
+                  }}
+                buttonStyle={{
+                    backgroundColor: props.backgroundColor,
+                    textAlign: 'center',
+                    minWidth: props.minWidth,
+                    minHeight: props.minHeight,
+                    color: 'white',
+                    
                 }}
             >
                 {props.left && (
@@ -38,7 +49,6 @@ const ButtonComponent = (props) => {
                     </TouchableOpacity>
                 )}
             </Button>
-        </View>
     );
 };
 export default ButtonComponent;
