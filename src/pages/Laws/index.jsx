@@ -22,9 +22,9 @@ export default function Laws() {
     const [myThirdText, setMyThirdText] = useState("Lei Joana Maranhão");
 
     //images states
-    const [FirstImageSource, setMyFirstImageSource] = useState(require('/assets/mariaPenha.jpeg'));
-    const [SecondImageSource, setMySecondImageSource] = useState(require('/assets/carolina-d.jpg'));
-    const [ThirdImageSource, setMyThirdImageSource] = useState(require('/assets/leiJoannaMaranhao.png'));
+    const [FirstImageSource, setMyFirstImageSource] = useState(require('../../../assets/mariaPenha.jpeg'));
+    const [SecondImageSource, setMySecondImageSource] = useState(require('../../../assets/carolina-d.jpg'));
+    const [ThirdImageSource, setMyThirdImageSource] = useState(require('../../../assets/leiJoannaMaranhao.png'));
 
     return (
         <SafeAreaView style={laws.container}>

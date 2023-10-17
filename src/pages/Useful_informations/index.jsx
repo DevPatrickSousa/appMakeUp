@@ -31,10 +31,10 @@ export default function UsefulInformations() {
     const [myFourthDetailedText, setMyFourthDetailedText] = useState("Venha se juntar a nós no Beauty Show, um evento emocionante que celebra a beleza em todas as suas formas.");
 
     //images states
-    const [firstImageSource, setFirstImageSource] = useState(require('/assets/colaboradores.jpg'));
-    const [secondImageSource, setMySecondImageSource] = useState(require('/assets/skinColor.jpeg'));
-    const [ThirdImageSource, setMyThirdImageSource] = useState(require('/assets/fashion.jpg'));
-    const [FourthImageSource, setMyFourthImageSource] = useState(require('/assets/beautyShow.png'));
+    const [firstImageSource, setFirstImageSource] = useState(require('../../../assets/colaboradores.jpg'));
+    const [secondImageSource, setMySecondImageSource] = useState(require('../../../assets/skinColor.jpeg'));
+    const [ThirdImageSource, setMyThirdImageSource] = useState(require('../../../assets/fashion.jpg'));
+    const [FourthImageSource, setMyFourthImageSource] = useState(require('../../../assets/beautyShow.png'));
 
     //actions states
     const [hideText, setHideText] = useState(false);
@@ -52,10 +52,10 @@ export default function UsefulInformations() {
         setMyThirdDetailedText("O número 0800 773 4340 é a linha de atendimento gratuito da Defensoria Pública. Esta é uma instituição que oferece assistência jurídica e orientação legal para pessoas que não têm condições de pagar por serviços de advogados particulares.");
         setMyFourthText("Disque denúncia");
         setMyFourthDetailedText("O número 181 é o Disque Denúncia, uma linha telefônica dedicada a receber informações e denúncias sobre atividades criminosas e situações suspeitas.");
-        setFirstImageSource(require('/assets/180.png'));
-        setMySecondImageSource(require('/assets/190.png'));
-        setMyThirdImageSource(require('/assets/defensoria.jpeg'));
-        setMyFourthImageSource(require('/assets/disqueDenuncia.jpg'));
+        setFirstImageSource(require('../../../assets/180.png'));
+        setMySecondImageSource(require('../../../assets/190.png'));
+        setMyThirdImageSource(require('../../../assets/defensoria.jpeg'));
+        setMyFourthImageSource(require('../../../assets/disqueDenuncia.jpg'));
     }
 
     //function to hide the SOS numbers.
@@ -69,10 +69,10 @@ export default function UsefulInformations() {
         setMyThirdDetailedText('Veja em detalhes toda a estrutura do departamento de moda que tem como intuito estar sempre a frente quando se diz "estar na moda".');
         setMyFourthText("Beauty show");
         setMyFourthDetailedText("Venha se juntar a nós no Beauty Show, um evento emocionante que celebra a beleza em todas as suas formas.");
-        setFirstImageSource(require('/assets/colaboradores.jpg'));
-        setMySecondImageSource(require('/assets/skinColor.jpeg'));
-        setMyThirdImageSource(require('/assets/fashion.jpg'));
-        setMyFourthImageSource(require('/assets/beautyShow.png'));
+        setFirstImageSource(require('../../../assets/colaboradores.jpg'));
+        setMySecondImageSource(require('../../../assets/skinColor.jpeg'));
+        setMyThirdImageSource(require('../../../assets/fashion.jpg'));
+        setMyFourthImageSource(require('../../../assets/beautyShow.png'));
     }
 
     //function to go back to the top.
