@@ -16,9 +16,9 @@ export const register = StyleSheet.create({
   avatarContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 200,
-    height: 200,
-    marginBottom:35
+    width: 250,
+    height: 250,
+    marginBottom:15
   },
   avatar: {
     backgroundColor: '#FFF',
@@ -53,8 +53,7 @@ export const register = StyleSheet.create({
   },
   actionCard: {
     width: 'auto',
-    maxHeight:400,
-    flex: 1,
+    maxHeight:'auto',
     backgroundColor: '#e989ff',
     borderWidth: 1,
     borderRadius: 10,
@@ -70,6 +69,7 @@ export const register = StyleSheet.create({
     },
     shadowOpacity: 0.09,
     shadowRadius: 3.45,
+    minHeight:420
   },
   appMakeUp: {
     

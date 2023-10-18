@@ -1,7 +1,5 @@
 //imports
-
 import React, { useState, useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
 import { View, Image, Text } from 'react-native';
 import InputComponent from '../../components/InputComponent/index';
 import ButtonComponent from "../../components/ButtonComponent/index";
@@ -126,7 +124,6 @@ export default function Register() {
 
   return (
       <View style={register.cardContainer}>
-        <StatusBar style="auto" />
         <View style={register.avatarContainer}>
           <Image source={require('../../../assets/logoMaybePurple.png')}
             style={register.logo}
@@ -138,12 +135,12 @@ export default function Register() {
         </View>
         </View>
           <View style={register.actionCard}>
-            <InputComponent  minHeight='40px' placeholder="Digite o seu Nome" value={userName} onChangeText={(text) => setName(text)} />
-            <InputComponent  minHeight='40px' placeholder="Digite a sua Idade" inputMode={'numeric'} value={age} onChangeText={(text) => setAge(text)} />
-            <InputComponent  minHeight='40px' placeholder="Digite o seu email" value={email} onChangeText={(text) => setEmail(text)} />
-            <InputComponent  minHeight='40px' placeholder="Digite a sua senha" secureTextEntry={true} value={password} onChangeText={(text) => setPassword(text)} />
-            <InputComponent  minHeight='40px' placeholder="Digite o seu telefone" inputMode={'numeric'} value={number} onChangeText={(text) => setNumber(text)} />
-            <ButtonComponent minHeight='55px' minWidth='168px' backgroundColor='#e989ff' borderColor='#ffbbca' title="Cadastrar" onPress={userRegister}/>
+            <InputComponent  minHeight={35} minWidthContainer={280} placeholder="Digite o seu Nome" value={userName} onChangeText={(text) => setName(text)} />
+            <InputComponent  minHeight={35} minWidthContainer={280} placeholder="Digite a sua Idade" inputMode={'numeric'} value={age} onChangeText={(text) => setAge(text)} />
+            <InputComponent  minHeight={35} minWidthContainer={280} placeholder="Digite o seu email" value={email} onChangeText={(text) => setEmail(text)} />
+            <InputComponent  minHeight={35} minWidthContainer={280} placeholder="Digite a sua senha" secureTextEntry={true} value={password} onChangeText={(text) => setPassword(text)} />
+            <InputComponent  minHeight={35} minWidthContainer={280} placeholder="Digite o seu telefone" inputMode={'numeric'} value={number} onChangeText={(text) => setNumber(text)} />
+            <ButtonComponent minWidthContainer={280} color="#e989ff" minWidth={200} title="Cadastrar" borderRadius={10} onPress={userRegister}/>
             <View>
             <LoadingComponent visible={loading}/>
             </View>
