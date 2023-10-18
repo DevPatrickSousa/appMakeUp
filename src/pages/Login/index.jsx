@@ -1,10 +1,8 @@
 //imports
-
 import React, { useState, useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Image, Text } from 'react-native';
+import { StyleSheet, View, Image, Text,Button } from 'react-native';
 import InputComponent from '../../components/InputComponent/index';
-import ButtonComponent from "../../components/ButtonComponent/index";
+import ButtonComponent from '../../components/ButtonComponent';
 import { loginStyles } from './styles'
 import Line from '../../components/Line';
 import { useNavigation } from '@react-navigation/native';
@@ -58,7 +56,6 @@ export default function Login() {
   const navigation = useNavigation();
   return (
     <View style={loginStyles.cardContainer}>
-      <StatusBar style="auto" />
         <View style={loginStyles.avatarContainer}>
           <Image source={require('../../../assets/logoMaybePurple.png')}
             style={loginStyles.logo}
@@ -71,9 +68,9 @@ export default function Login() {
         </View>
         
         <View style={loginStyles.actionCard}>
-          <InputComponent minHeight='55px' placeholder="Digite o seu email" value={email} onChangeText={(text) => setEmail(text)} />
-          <InputComponent minHeight='55px' placeholder="Digite a sua senha" secureTextEntry={true} value={password} onChangeText={(text) => setPassword(text)} />
-          <ButtonComponent minHeight='55px' minWidth='168px' backgroundColor='#e989ff' borderColor='#ffbbca' title="Login" onPress={login}/>
+          <InputComponent minWidthContainer={280} minHeight={55} placeholder="Digite o seu email" value={email} onChangeText={(text) => setEmail(text)} />
+          <InputComponent minWidthContainer={280} minHeight={55} placeholder="Digite a sua senha" secureTextEntry={true} value={password} onChangeText={(text) => setPassword(text)} />
+          <ButtonComponent  title='login' name='arrow-right' color="#e989ff" minWidth={200} borderRadius={10} onPress={login}/>
           <View>
           <LoadingComponent visible={loading}/>
           </View>

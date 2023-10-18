@@ -61,7 +61,8 @@ export const loginStyles = StyleSheet.create({
     borderRadius: 10,
     borderColor:'#ffbbca',
     elevation:6,
-    maxHeight:'320px',
+    maxHeight:'100%',
+    minHeight:370,
     minWidth:'100%',
     alignItems: 'center',
     justifyContent: 'space-evenly',
@@ -72,7 +73,7 @@ export const loginStyles = StyleSheet.create({
     },
     shadowOpacity: 0.09,
     shadowRadius: 3.45,
-    flex:1
+    
   },
   appMakeUp: {
     
@@ -85,4 +86,20 @@ export const loginStyles = StyleSheet.create({
     textShadowOffset: { width: 2, height: 2 }, 
     textShadowRadius: 5,
   },
+  buttonContainerStyles:{
+    maxWidth:'100%',
+    color: 'white',
+    borderRadius:10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.6,
+    shadowRadius: 3,
+    elevation: 1,
+    blurRadius: 4,
+    alignSelf:'center',
+    width:200
+  }
 });
