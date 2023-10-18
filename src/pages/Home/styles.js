@@ -6,7 +6,6 @@ export const home = StyleSheet.create({
     backgroundColor: '#e989ff',
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   avatarContainer: {
     alignItems: 'center',
@@ -19,7 +18,8 @@ export const home = StyleSheet.create({
     height:'auto',
     width:'auto',
     minWidth: 300,
-    minHeight: 150,
+    maxHeight:200,
+    maxWidth:350,
     backgroundColor: '#e989ff',
     borderWidth: 1,
     borderRadius: 10,
@@ -72,6 +72,11 @@ export const home = StyleSheet.create({
     textShadowColor: '#8025b7', 
     textShadowOffset: { width: 2, height: 2 }, 
     textShadowRadius: 5,
+  },
+  cardsContainer: {
+    flexDirection: 'column', 
+    justifyContent: 'space-between', 
+    paddingHorizontal: 10, 
   },
 
 });

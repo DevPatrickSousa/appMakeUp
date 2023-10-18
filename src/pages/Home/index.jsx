@@ -1,6 +1,4 @@
 import React from 'react';
-
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
 import { home } from './styles';
@@ -21,17 +19,16 @@ export default function Home() {
     navigation.navigate('Profile');
   }
   
-  function goToUsefulInformations(){
-    navigation.navigate('UsefulInformations')
+  function goToInformationsPage(){
+    navigation.navigate('Informations')
   }
 
   return (
     <View style={home.container}> 
-      <StatusBar style="auto" />
       <Avatar
         size={32}
         source={require('../../../assets/info.png')}
-        onPress={goToUsefulInformations}
+        onPress={goToInformationsPage}
         containerStyle={home.info}
       />
 
@@ -45,7 +42,7 @@ export default function Home() {
           </Text>
         </View>
       </View>
-
+      <View style={home.cardsContainer}>
       <TouchableOpacity onPress={() => navigation.navigate('EmergencyContacts')}>
         <Card containerStyle={home.card}>
           <Avatar
@@ -69,7 +66,6 @@ export default function Home() {
           <Avatar
             size={32}
             source={require('../../../assets/powder.png')}
-            iconStyle={home.powder}
           />
 
           <Card.Title style={home.title}>Grave seus passos a passos</Card.Title>
@@ -80,6 +76,7 @@ export default function Home() {
           </Text>
         </Card>
       </TouchableOpacity>
+      </View>
     </View>
   );
 }
