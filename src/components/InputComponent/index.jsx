@@ -7,6 +7,7 @@ import { color } from 'react-native-reanimated';
 const InputComponent = (props) => {
 
   return (
+    <View>
       <Input 
         inputContainerStyle={{
           minWidth:props.minWidthContainer,
@@ -14,7 +15,8 @@ const InputComponent = (props) => {
           borderColor: 'white',
           color: 'white',
           borderWidth: 1,
-          borderRadius:10
+          borderRadius:10,
+          width:props.width
         }}
         inputStyle={{
           textAlign: 'center',
@@ -36,6 +38,7 @@ const InputComponent = (props) => {
         onChangeText={props.onChangeText}
         inputMode={props.inputMode}
       />
+      </View>
   );
 };
 

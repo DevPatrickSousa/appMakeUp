@@ -11,13 +11,15 @@ const buttonStyle = StyleSheet.create({
   buttonText:{
     textTransform: 'uppercase',
     color: '#FFF',
-    fontFamily:'OpenSans'
+    fontFamily: 'OpenSans',
+    letterSpacing: 1,
+    
   },
   buttonTextContainer:{
     flex: 1,
     justifyContent: 'center',
     alignItems:'center',
-    letterSpacing:2
+    letterSpacing:1
   }
 });
 
