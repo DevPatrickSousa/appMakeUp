@@ -8,11 +8,12 @@ export default function App() {
   
   return (
   <>
+    <StatusBar style="light" backgroundColor='#b557db'/>
     <Routes isAuthenticated={isAuthenticated}/>
     <Toast/>
   </>
    
-  );
+  );ew
 }
 
 const styles = StyleSheet.create({
