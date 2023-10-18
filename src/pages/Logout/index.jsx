@@ -7,11 +7,14 @@ import ButtonComponent from "../../components/ButtonComponent";
 import Line from "../../components/Line";
 import Toast from 'react-native-toast-message';
 import { useNavigation } from '@react-navigation/native';
+import LoadingComponent from "../../components/LoadingComponent/index";
 
 export default function Loggout(){
 
     const [visible, setVisible] = React.useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(false);
+
     const navigation = useNavigation();
 
     async function goToHomePage() {
@@ -27,11 +30,12 @@ export default function Loggout(){
     }
 
     async function userLogout(){
+      setLoading(true);
       try {
         await removeToken();
         Toast.show({
           type: 'success',
-          text1: 'Usuário saiu do sistema com sucesso.',
+          text1: 'Você saiu do sistema com sucesso.',
           text2: 'Você será redirecionado para a tela inicial em instantes.'
         });
         await closeDialog();
@@ -39,6 +43,7 @@ export default function Loggout(){
         setTimeout(() => {
           goToHomePage();
         }, 2000);
+        setLoading(false);
       } catch (error) {
         console.log(error);
         Toast.show({
@@ -46,6 +51,7 @@ export default function Loggout(){
           text1: 'Erro ao fazer logout.',
           text2: 'Erro ao fazer logout, tente novamente.'
         });
+        setLoading(false);
       }
     }
 
@@ -63,14 +69,15 @@ export default function Loggout(){
               />
             </View>
             <Portal>
-              <Dialog style={loggoutStyles.dialog} visible={visible} onDismiss={closeDialog}>
+              <Dialog style={loggoutStyles.dialog} visible={visible}>
                 <Dialog.Title style={loggoutStyles.title}>Deseja realmente sair?</Dialog.Title>
                 <Line/>
                 <Dialog.Actions style={loggoutStyles.buttonActions}>
-                  <ButtonComponent title="Não" minWidthContainer="100%" minHeight="50px" onPress={closeDialog}/>
+                  <ButtonComponent title="Não" minWidth={'100%'} minHeight="50px" color="#e989ff" onPress={closeDialog}/>
                   <Line/>
-                  <ButtonComponent title="Sim" minWidthContainer="100%" minHeight="50px" onPress={userLogout}/>
+                  <ButtonComponent title="Sim" minWidth={'100%'} minHeight="50px" color="#e989ff" borderBottomStartRadius={10} borderBottomEndRadius={10} onPress={userLogout}/>
                 </Dialog.Actions>
+                <LoadingComponent visible={loading}/>
               </Dialog>
             </Portal>
             <View style={loggoutStyles.appMakeUp}>

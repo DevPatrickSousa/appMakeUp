@@ -5,6 +5,7 @@ export const loggoutStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#e989ff',
     alignItems: 'center',
+    justifyContent:'center'
   },
   logo: {
     width: 194,
@@ -26,12 +27,10 @@ export const loggoutStyles = StyleSheet.create({
    paddingRight:0
   },
   appMakeUp: {
-    position: 'absolute',
-    bottom: 0,
-    marginBottom:'100px',
+    marginVertical:150
   },
   imageContainer: {
-    top:0
+    marginVertical:100
   },
   textAppMakeUp:{
     color: '#FFF',
@@ -50,12 +49,15 @@ export const loggoutStyles = StyleSheet.create({
     },
     shadowOpacity: 0.09,
     shadowRadius: 3.45,
-    borderRadius:10
+    borderRadius:15,
+    borderBottomEndRadius:20,
+    borderBottomStartRadius:10,
   },
   title:{
     textAlign:'center',
     fontSize:18,
     fontFamily: 'montserrat',
+    color:'#FFFF',
   },
   content:{
     marginTop:10
