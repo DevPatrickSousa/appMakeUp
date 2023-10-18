@@ -2,21 +2,22 @@ import { StyleSheet } from 'react-native';
 
 export const UsefulInformationsStyles = StyleSheet.create({
     container: {
+        flex: 1,
         backgroundColor: '#e989ff',
         alignItems: 'center',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-between',
         width: '100%',
         height: '100%',
-        
+      },
+    scrollViewContainer:{
+
     },
     cardContainer: {
-        width: 'auto',
-        height:'auto',
+        marginTop:20,
         alignItems: 'center',
         justifyContent: 'center',
     },
     card: {
-        flex:1,
         width: 'auto',
         maxWidth: 'auto',
         backgroundColor: '#FFFF',
@@ -33,7 +34,6 @@ export const UsefulInformationsStyles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 4,
-        marginVertical: 10,
     },
     text: {
         color: "#FFFFFF",
@@ -85,6 +85,7 @@ export const UsefulInformationsStyles = StyleSheet.create({
         borderRadius:10
     },
     buttonContainer:{
+        alignItems:'center',
         marginVertical:15
     }
 });

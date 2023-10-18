@@ -1,5 +1,4 @@
 //imports
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
 import {  Card, Button, Icon } from '@rneui/themed';
 import { useFonts } from 'expo-font';
@@ -7,6 +6,7 @@ import React, { useState, useRef } from 'react';
 import { UsefulInformationsStyles } from './styles';
 import Line from '../../components/Line';
 import ButtonComponent from '../../components/ButtonComponent';
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function UsefulInformations() {
 
@@ -81,10 +81,34 @@ export default function UsefulInformations() {
           scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
         }
       }
+    
+    //function to can reset the states when change the page.
+    function resetState() {
+        setHideText(false);
+        setButtonText("Mais detalhes");
+        setMyFirstText("N° de colaboradores para te atender");
+        setMySecondText("N° de tonalidades de pele");
+        setMyThirdText("Departamento de moda");
+        setMyFourthText("Beauty show");
+        setMyFirstDetailedText("Se surpreenda com o número de colaboradores que temos por todo o Brasil visando compartilhar suas técnicas incríveis.");
+        setMySecondDetailedText("Acabe com a sua curiosidade em relação a todas as tonalidades de peles disponíveis em cosméticos voltados para a sua pele.");
+        setMyThirdDetailedText('Veja em detalhes toda a estrutura do departamento de moda que tem como intuito estar sempre à frente quando se diz "estar na moda".');
+        setMyFourthDetailedText("Venha se juntar a nós no Beauty Show, um evento emocionante que celebra a beleza em todas as suas formas.");
+        setFirstImageSource(require('../../../assets/colaboradores.jpg'));
+        setMySecondImageSource(require('../../../assets/skinColor.jpeg'));
+        setMyThirdImageSource(require('../../../assets/fashion.jpg'));
+        setMyFourthImageSource(require('../../../assets/beautyShow.png'));
+    }
+
+    //using useEffect to can reset the values
+    useFocusEffect(
+        React.useCallback(() => {
+            resetState();
+        }, [])
+      );
 
     return (
         <SafeAreaView style={UsefulInformationsStyles.container}>
-            <StatusBar style="auto" />
             <ScrollView contentContainerStyle={UsefulInformationsStyles.scrollViewContainer} ref={scrollViewRef}>
                 <View style={UsefulInformationsStyles.cardContainer}>
                         <Card containerStyle={UsefulInformationsStyles.cardContainerStyle}>
@@ -97,7 +121,7 @@ export default function UsefulInformations() {
                             <Text style={UsefulInformationsStyles.text}>
                                {myFirstDetailedText}
                             </Text>
-                            <ButtonComponent minHeight='40px' minWidth='168px' backgroundColor='#e989ff' borderColor='#ffbbca' title="Saiba mais" />
+                            <ButtonComponent title='Saiba mais' name='arrow-right' color="#e989ff" borderRadius={10} minWidth={200} maxWidth={'auto'}/>
                         </Card>
                 </View>
 
@@ -112,7 +136,7 @@ export default function UsefulInformations() {
                             <Text style={UsefulInformationsStyles.text}>
                                 {mySecondDetailedText}
                             </Text>
-                            <ButtonComponent minHeight='40px' minWidth='168px' backgroundColor='#e989ff' borderColor='#ffbbca' title="Saiba mais" />
+                            <ButtonComponent title='Saiba mais' name='arrow-right' color="#e989ff" borderRadius={10} minWidth={200} maxWidth={'auto'}/>
                         </Card>
                 </View>
 
@@ -127,7 +151,7 @@ export default function UsefulInformations() {
                             <Text style={UsefulInformationsStyles.text}>
                                {myThirdDetailedText}
                             </Text>
-                            <ButtonComponent minHeight='40px' minWidth='168px' backgroundColor='#e989ff' borderColor='#ffbbca' title="Saiba mais" />
+                            <ButtonComponent title='Saiba mais' name='arrow-right' color="#e989ff" borderRadius={10} minWidth={200} maxWidth={'auto'}/>
                         </Card>
                 </View>
 
@@ -142,27 +166,31 @@ export default function UsefulInformations() {
                             <Text style={UsefulInformationsStyles.text}>
                                {myFourthDetailedText}
                             </Text>
-                            <ButtonComponent minHeight='40px' minWidth='168px' backgroundColor='#e989ff' borderColor='#ffbbca' title="Saiba mais" />
+                            <ButtonComponent title='Saiba mais' name='arrow-right' color="#e989ff" borderRadius={10} minWidth={200} maxWidth={'auto'}/>
                         </Card>
                 </View>
 
                 <View style={UsefulInformationsStyles.buttonContainer}>
                     <ButtonComponent 
-                    minHeight='40px' 
-                    minWidth='168px' 
-                    backgroundColor='#e989ff' 
-                    borderColor='#ffbbca' 
-                    title={buttonText} 
-                    onPress={() => {
-                        if (hideText === false) {
-                        showMoreInformations();
-                        setButtonText("Menos detalhes");
-                        } else {
-                        showLessInformations();
-                        setButtonText("Mais detalhes");
-                        }
-                        scrollToTop();
-                    }}/>
+                        maxWidth={220}
+                        minWidth={220}
+                        maxHeight={40}
+                        minHeight={40}
+                        color="#e989ff" 
+                        borderRadius={10} 
+                        borderColor='#ffbbca' 
+                        title={buttonText} 
+                        onPress={() => {
+                            if (hideText === false) {
+                                showMoreInformations();
+                                setButtonText("Menos detalhes");
+                            } else {
+                                showLessInformations();
+                                setButtonText("Mais detalhes");
+                            }
+                            scrollToTop();
+                        }}
+                    />
                 </View>
             </ScrollView>
         </SafeAreaView>
