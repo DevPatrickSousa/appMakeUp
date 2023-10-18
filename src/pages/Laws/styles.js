@@ -9,8 +9,7 @@ export const laws = StyleSheet.create({
         height: '100%',
     },
     cardContainer: {
-        width: 'auto',
-        height:'auto',
+        marginTop:20,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -84,4 +83,8 @@ export const laws = StyleSheet.create({
         maxWidth:'100%',
         borderRadius:10
     },
+    buttonContainer:{
+        alignItems:'center',
+        marginVertical:15
+    }
 });
