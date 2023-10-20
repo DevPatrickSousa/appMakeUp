@@ -58,6 +58,7 @@ export const loggoutStyles = StyleSheet.create({
     fontSize:18,
     fontFamily: 'montserrat',
     color:'#FFFF',
+    fontWeight:700
   },
   content:{
     marginTop:10
