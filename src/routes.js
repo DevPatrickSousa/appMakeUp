@@ -39,12 +39,12 @@ export default function App() {
     };
     checkToken();
 
-    //fazer com que a cada 1s seja verificado o status do token.
+    //every second we check the token status
     const interval = setInterval(() => {
       checkToken();
     }, 1000);
 
-    //liimpar o intervalo quando o componente for desmontado
+    //clear the interval on "unMounted"
     return () => {
       clearInterval(interval);
     };
@@ -53,8 +53,8 @@ export default function App() {
   const getRoutes = () => {
     return isAuthenticated ? [
       ...routes,
-      <Tab.Screen name="Profile" component={Profile} options={{tabBarLabel: 'Profile',tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="account-circle" color={color} size={20} />)}}/>,
-      <Tab.Screen name="Logout" component={Logout} options={{tabBarLabel: 'Logout',tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="exit-to-app" color={color} size={20} />)}}/>,
+      <Tab.Screen name="Profile" component={Profile} options={{tabBarLabel: 'Perfil',tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="account-circle" color={color} size={20} />)}}/>,
+      <Tab.Screen name="Logout" component={Logout} options={{tabBarLabel: 'Sair',tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="exit-to-app" color={color} size={20} />)}}/>,
     ] : [
       ...routes,
       <Tab.Screen name="Login" component={Login} options={{tabBarLabel: 'Entrar',tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="login-variant" color={color} size={20} />)}}/>,
