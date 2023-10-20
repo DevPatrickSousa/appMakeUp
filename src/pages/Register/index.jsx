@@ -11,7 +11,7 @@ import LoadingComponent from "../../components/LoadingComponent/index";
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { validateName, validateAge, validateEmail, validateNumber } from '../../utils/filters';
-import { fetchToken, getToken, removeToken } from '../../utils/auth';
+import { setToken, getToken, removeToken } from '../../utils/auth';
 
 export default function Register() {
 
@@ -84,7 +84,7 @@ export default function Register() {
 
     setLoading(true);
 
-    const token = await fetchToken();
+    const token = await setToken();
 
     let option = { headers: { 'Content-Type': [CONTENT_TYPE], 'authorization': 'Bearer ' + token } }
   
@@ -135,11 +135,11 @@ export default function Register() {
         </View>
         </View>
           <View style={register.actionCard}>
-            <InputComponent  minHeight={35} minWidthContainer={280} placeholder="Digite o seu Nome" value={userName} onChangeText={(text) => setName(text)} />
-            <InputComponent  minHeight={35} minWidthContainer={280} placeholder="Digite a sua Idade" inputMode={'numeric'} value={age} onChangeText={(text) => setAge(text)} />
-            <InputComponent  minHeight={35} minWidthContainer={280} placeholder="Digite o seu email" value={email} onChangeText={(text) => setEmail(text)} />
-            <InputComponent  minHeight={35} minWidthContainer={280} placeholder="Digite a sua senha" secureTextEntry={true} value={password} onChangeText={(text) => setPassword(text)} />
-            <InputComponent  minHeight={35} minWidthContainer={280} placeholder="Digite o seu telefone" inputMode={'numeric'} value={number} onChangeText={(text) => setNumber(text)} />
+            <InputComponent minHeight={35} minWidthContainer={280} placeholder="Digite o seu Nome" value={userName} onChangeText={(text) => setName(text)} />
+            <InputComponent minHeight={35} minWidthContainer={280} placeholder="Digite a sua Idade" inputMode={'numeric'} value={age} onChangeText={(text) => setAge(text)} />
+            <InputComponent minHeight={35} minWidthContainer={280} placeholder="Digite o seu email" value={email} onChangeText={(text) => setEmail(text)} />
+            <InputComponent minHeight={35} minWidthContainer={280} placeholder="Digite a sua senha" secureTextEntry={true} value={password} onChangeText={(text) => setPassword(text)} />
+            <InputComponent minHeight={35} minWidthContainer={280} placeholder="Digite o seu telefone" inputMode={'numeric'} value={number} onChangeText={(text) => setNumber(text)} />
             <ButtonComponent minWidthContainer={280} color="#e989ff" minWidth={200} title="Cadastrar" borderRadius={10} onPress={userRegister}/>
             <View>
             <LoadingComponent visible={loading}/>
