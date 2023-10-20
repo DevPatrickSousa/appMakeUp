@@ -78,12 +78,12 @@ export default function UsefulInformations() {
     //function to go back to the top.
     function scrollToTop() {
         if (scrollViewRef.current) {
-          scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
+          scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true, duration: 1000 });
         }
       }
     
     //function to can reset the states when change the page.
-    function resetState() {
+    function resetStates() {
         setHideText(false);
         setButtonText("Mais detalhes");
         setMyFirstText("N° de colaboradores para te atender");
@@ -103,7 +103,8 @@ export default function UsefulInformations() {
     //using useEffect to can reset the values
     useFocusEffect(
         React.useCallback(() => {
-            resetState();
+            resetStates();
+            scrollToTop();
         }, [])
       );
 

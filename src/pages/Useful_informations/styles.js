@@ -79,7 +79,7 @@ export const UsefulInformationsStyles = StyleSheet.create({
         alignItems:'center',
     },
     cardImage:{
-        height:100,
+        height:170,
         resizeMode:'cover',
         maxWidth:'100%',
         borderRadius:10
