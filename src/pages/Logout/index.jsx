@@ -6,7 +6,7 @@ import { loggoutStyles } from "./styles";
 import ButtonComponent from "../../components/ButtonComponent";
 import Line from "../../components/Line";
 import Toast from 'react-native-toast-message';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import LoadingComponent from "../../components/LoadingComponent/index";
 
 export default function Loggout(){
@@ -23,6 +23,7 @@ export default function Loggout(){
 
     async function closeDialog(){
       setVisible(false);
+      goToHomePage();
     }
 
     async function openDialog(){
@@ -40,9 +41,6 @@ export default function Loggout(){
         });
         await closeDialog();
         setIsAuthenticated(false);
-        setTimeout(() => {
-          goToHomePage();
-        }, 2000);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -60,6 +58,13 @@ export default function Loggout(){
         openDialog();
     }, []);
 
+    useFocusEffect(
+      React.useCallback(() => {
+        getToken();
+        openDialog();
+      }, [])
+    );
+
     return (
         <PaperProvider>
           <View style={loggoutStyles.loggoutContainer}>
@@ -73,9 +78,9 @@ export default function Loggout(){
                 <Dialog.Title style={loggoutStyles.title}>Deseja realmente sair?</Dialog.Title>
                 <Line/>
                 <Dialog.Actions style={loggoutStyles.buttonActions}>
-                  <ButtonComponent title="Não" minWidth={'100%'} minHeight="50px" color="#e989ff" onPress={closeDialog}/>
+                  <ButtonComponent title="Não" minWidth={'100%'} minHeightButton={50} color="#e989ff" onPress={closeDialog}/>
                   <Line/>
-                  <ButtonComponent title="Sim" minWidth={'100%'} minHeight="50px" color="#e989ff" borderBottomStartRadius={10} borderBottomEndRadius={10} onPress={userLogout}/>
+                  <ButtonComponent title="Sim" minWidth={'100%'} minHeightButton={50} color="#e989ff" borderBottomStartRadius={10} borderBottomEndRadius={10} onPress={userLogout}/>
                 </Dialog.Actions>
                 <LoadingComponent visible={loading}/>
               </Dialog>

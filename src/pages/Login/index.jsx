@@ -11,8 +11,9 @@ import api from '../../../services/api';
 import LoadingComponent from "../../components/LoadingComponent/index";
 import Toast from 'react-native-toast-message';
 import { validateName, validateAge, validateEmail, validateNumber } from '../../utils/filters';
-import { fetchToken, getToken, removeToken } from '../../utils/auth';
+import { setToken, getToken, removeToken } from '../../utils/auth';
 import { Card } from '@rneui/themed';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login() {
 
@@ -26,7 +27,7 @@ export default function Login() {
 
   async function login(){
     setLoading(true);
-    const token = await fetchToken();
+    const token = await setToken();
 
     let option = { headers: { 'Content-Type': [CONTENT_TYPE], 'authorization': 'Bearer ' + token } }
 
@@ -36,7 +37,10 @@ export default function Login() {
     }
 
     await api.post('/login?key=4dm1n', data, option)
-      .then((res) => {
+      .then(async (res) => {
+          const id = res.data._id
+          await AsyncStorage.setItem('user_id', id);
+          console.log(id);
           goToHomePage();
       })
       .catch((error) => {
@@ -50,6 +54,7 @@ export default function Login() {
       })
       .finally(() => {
         setLoading(false);
+        goToHomePage();
       })
   }
 
@@ -70,7 +75,7 @@ export default function Login() {
         <View style={loginStyles.actionCard}>
           <InputComponent minWidthContainer={280} minHeight={55} placeholder="Digite o seu email" value={email} onChangeText={(text) => setEmail(text)} />
           <InputComponent minWidthContainer={280} minHeight={55} placeholder="Digite a sua senha" secureTextEntry={true} value={password} onChangeText={(text) => setPassword(text)} />
-          <ButtonComponent  title='login' name='arrow-right' color="#e989ff" minWidth={200} borderRadius={10} onPress={login}/>
+          <ButtonComponent title='login' name='arrow-right' color="#e989ff" minWidth={200} minHeightButton={55} borderRadius={10} onPress={login}/>
           <View>
           <LoadingComponent visible={loading}/>
           </View>
