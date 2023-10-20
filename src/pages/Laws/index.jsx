@@ -67,7 +67,7 @@ export default function Laws() {
     //function to go back to the top.
     function scrollToTop() {
         if (scrollViewRef.current) {
-          scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
+          scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true, duration: 1000 });
         }
       }
     
@@ -90,6 +90,7 @@ export default function Laws() {
     useFocusEffect(
         React.useCallback(() => {
             resetStates();
+            scrollToTop();
         }, [])
       );
 
