@@ -78,5 +78,24 @@ export const home = StyleSheet.create({
     justifyContent: 'space-between', 
     paddingHorizontal: 10, 
   },
-
+  dialog:{
+    backgroundColor: '#e989ff',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.09,
+    shadowRadius: 3.45,
+    borderRadius:15,
+    borderBottomEndRadius:20,
+    borderBottomStartRadius:10,
+  },
+  buttonActions: {
+    flexDirection:'column',
+    paddingTop:0,
+    paddingBottom:0,
+    paddingLeft:0,
+    paddingRight:0
+   },
 });
