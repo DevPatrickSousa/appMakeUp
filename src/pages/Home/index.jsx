@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
 import { home } from './styles';
 import { useNavigation } from '@react-navigation/native';
-import {AUTHENTICATION, CONTENT_TYPE} from '@env';
+import { AUTHENTICATION, CONTENT_TYPE, PHONE_NUMBER, API_KEY } from '@env';
 import { Card, Avatar } from '@rneui/themed';
 import { setToken, removeToken, getToken } from '../../utils/auth';
 import Toast from 'react-native-toast-message';
@@ -12,6 +12,9 @@ import Line from "../../components/Line";
 import ButtonComponent from "../../components/ButtonComponent";
 import LoadingComponent from "../../components/LoadingComponent";
 import api from '../../../services/api';
+import { Document, ImageRun, TextRun, Packer, Paragraph } from "docx";
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 export default function Home() {
   const [loaded] = useFonts({
@@ -29,46 +32,71 @@ export default function Home() {
   function goToProfilePage() {
     navigation.navigate('Profile');
   }
-  
-  function goToInformationsPage(){
-    navigation.navigate('Informations')
+
+  function goToInformationsPage() {
+    navigation.navigate('Informations');
   }
 
-  async function closeDialog(){
+  async function closeDialog() {
     setVisible(false);
-    goToHomePage();
   }
 
-  async function openDialog(){
-    setVisible(true);
+  async function createDocx() {
+    const nome = 'Patrick'
+
+    let doc = new Document({
+      sections: [
+        {
+          children: [
+            new Paragraph({
+              children: [
+                new TextRun(nome)
+              ]
+            }),
+          ],
+        },
+      ],
+    });
+  
+    Packer.toBase64String(doc).then((base64) => {
+      const fileName = FileSystem.documentDirectory + "emergencyDocPrototype.docx"
+      FileSystem.writeAsStringAsync(fileName, base64, {
+        encoding: FileSystem.EncodingType.Base64
+      }).then(() => {
+        Sharing.shareAsync(fileName);
+      }).catch((error) =>{
+        console.error(error);
+      })
+    })
+  }
+  
+  async function help() {
+    await sendSMS();
+    await createDocx();
   }
 
-  async function sendSMS(){
+  async function sendSMS() {
     const token = await setToken();
 
     let option = { headers: { 'Content-Type': [CONTENT_TYPE], 'authorization': 'Bearer ' + token } }
 
     const data = {
-     msg:'ESTOU EM PERIGO, POR FAVOR ME AJUDE!'
+      msg: 'ESTOU EM PERIGO, POR FAVOR ME AJUDE!'
     }
 
-    await api.post('/sendMsg/sos/11943646430?key=4dm1n', data, option)
+    await api.post(`/sendMsg/sos/${PHONE_NUMBER}?key=${API_KEY}`, data, option)
       .then((res) => {
         Toast.show({
           type: 'success',
-          text1: 'Usuário cadastrado com sucesso!',
-          text2: 'Você será redirecionado para a tela inicial em instantes.'
+          text1: 'Mensagem enviada com sucesso!',
         });
-        setTimeout(() => {
-          goToHomePage();
-        }, 2000);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         Toast.show({
           type: 'error',
-          text1: 'Erro ao cadastrar usuário!!',
-          text2: 'Verifique se todos os campos foram preenchidos corretamente.'
+          text1: 'Erro ao enviar mensagem!',
+          text2: 'Favor tentar novamente.'
         });
         removeToken();
       })
@@ -85,20 +113,17 @@ export default function Home() {
     };
     checkToken();
 
-    //every second we check the token status
     const interval = setInterval(() => {
       checkToken();
     }, 1000);
 
-    //clear the interval on "unMounted"
     return () => {
       clearInterval(interval);
     };
   }, []);
 
   return (
-    <PaperProvider>
-    <View style={home.container}> 
+    <View style={home.container}>
       <Avatar
         size={32}
         source={require('../../../assets/info.png')}
@@ -117,56 +142,42 @@ export default function Home() {
         </View>
       </View>
       <View style={home.cardsContainer}>
-      <TouchableOpacity onPress={() => {isAuthenticated === true ? goToProfilePage() : Toast.show({type: 'error', text1: 'Erro.',
+        <TouchableOpacity onPress={() => { isAuthenticated === true ? goToProfilePage() : Toast.show({ type: 'error', text1: 'Erro.',
           text2: 'Necessário realizar o login para poder acessar.'
-        });}}>
-        <Card containerStyle={home.card}>
-          <Avatar
-            size={32}
-            source={require('../../../assets/mascara.png')}
-          />
+        }); }}>
+          <Card containerStyle={home.card}>
+            <Avatar
+              size={32}
+              source={require('../../../assets/mascara.png')}
+            />
 
-          <Card.Title style={home.title}>Tutorial de primeira MakeUp</Card.Title>
+            <Card.Title style={home.title}>Tutorial de primeira MakeUp</Card.Title>
 
-          <Text style={home.text}>
-            Veja como fazer maquiagem
-            passo-a-passo e saiba quais as
-            dicas a seguir para fazer uma
-            maquiagem para a noite e para o dia.
-          </Text>
-        </Card>
-      </TouchableOpacity>
-      
-      <TouchableOpacity onPress={openDialog} style={home.hoverButton}>
-        <Card containerStyle={home.card}>
-          <Avatar
-            size={32}
-            source={require('../../../assets/powder.png')}
-          />
+            <Text style={home.text}>
+              Veja como fazer maquiagem
+              passo-a-passo e saiba quais as
+              dicas a seguir para fazer uma
+              maquiagem para a noite e para o dia.
+            </Text>
+          </Card>
+        </TouchableOpacity>
 
-          <Card.Title style={home.title}>Grave seus passos a passos</Card.Title>
+        <TouchableOpacity onPress={help} style={home.hoverButton}>
+          <Card containerStyle={home.card}>
+            <Avatar
+              size={32}
+              source={require('../../../assets/powder.png')}
+            />
 
-          <Text style={home.text}>
-            Faça você mesmo os passos de como fazer uma Makeup,
-            podendo indicar também se essa maquiagem é para o dia ou para a noite.
-          </Text>
-        </Card>
-      </TouchableOpacity>
-      
-        <Portal>
-          <Dialog style={home.dialog} visible={visible}>
-            <Dialog.Title style={home.title}>Deseja realmente sair?</Dialog.Title>
-            <Line/>
-            <Dialog.Actions style={home.buttonActions}>
-              <ButtonComponent title="Não" minWidth={'100%'} minHeightButton={50} color="#e989ff" onPress={closeDialog}/>
-              <Line/>
-              <ButtonComponent title="Sim" minWidth={'100%'} minHeightButton={50} color="#e989ff" borderBottomStartRadius={10} borderBottomEndRadius={10} onPress={sendSMS} />
-            </Dialog.Actions>
-            <LoadingComponent visible={loading}/>
-          </Dialog>
-        </Portal>
+            <Card.Title style={home.title}>Grave seus passos a passos</Card.Title>
+
+            <Text style={home.text}>
+              Faça você mesmo os passos de como fazer uma Makeup,
+              podendo indicar também se essa maquiagem é para o dia ou para a noite.
+            </Text>
+          </Card>
+        </TouchableOpacity>
       </View>
     </View>
-    </PaperProvider>
   );
 }
