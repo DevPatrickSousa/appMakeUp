@@ -17,9 +17,12 @@
     "@react-navigation/native": "^6.1.7",
     "@rneui/themed": "^4.0.0-rc.8",
     "axios": "^1.4.0",
+    "docx": "^8.2.4",
     "expo": "^49.0.13",
     "expo-dev-client": "^2.4.11",
+    "expo-file-system": "~15.4.4",
     "expo-status-bar": "~1.6.0",
+    "file-saver": "^2.0.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.46.2",
@@ -33,7 +36,9 @@
     "react-native-screens": "~3.22.0",
     "react-native-toast-message": "^2.1.6",
     "react-native-vector-icons": "^10.0.0",
-    "react-native-web": "^0.19.9"
+    "react-native-web": "^0.19.9",
+    "expo-sharing": "~11.5.0",
+    "expo-document-picker": "~11.5.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
