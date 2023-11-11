@@ -38,9 +38,12 @@ export default function Login() {
 
     await api.post('/login?key=4dm1n', data, option)
       .then(async (res) => {
-          const id = res.data._id
-          await AsyncStorage.setItem('user_id', id);
-          console.log(id);
+        const user = res.data;
+
+        const userString = JSON.stringify(user);
+
+          await AsyncStorage.setItem('user', userString);
+
           goToHomePage();
       })
       .catch((error) => {
