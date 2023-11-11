@@ -5,7 +5,7 @@ import { home } from './styles';
 import { useNavigation } from '@react-navigation/native';
 import { AUTHENTICATION, CONTENT_TYPE, PHONE_NUMBER, API_KEY } from '@env';
 import { Card, Avatar } from '@rneui/themed';
-import { setToken, removeToken, getToken } from '../../utils/auth';
+import { setToken, removeToken, getToken, getUser } from '../../utils/auth';
 import Toast from 'react-native-toast-message';
 import { Button, Dialog, Portal, PaperProvider } from 'react-native-paper';
 import Line from "../../components/Line";
@@ -26,6 +26,7 @@ export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [visible, setVisible] = React.useState(false);
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState({});
 
   const navigation = useNavigation();
 
@@ -43,6 +44,9 @@ export default function Home() {
 
   async function createDocx() {
     const nome = 'Patrick'
+    const idade = 21
+    const email = 'patrickseven22@hotmail.com'
+    const num = '11943646430'
 
     let doc = new Document({
       sections: [
@@ -50,7 +54,22 @@ export default function Home() {
           children: [
             new Paragraph({
               children: [
-                new TextRun(nome)
+                new TextRun('Patrick'),
+              ]
+            }),
+            new Paragraph({
+              children: [
+                new TextRun('21'),
+              ]
+            }),
+            new Paragraph({
+              children: [
+                new TextRun('patrickseven22@hotmail.com'),
+              ]
+            }),
+            new Paragraph({
+              children: [
+                new TextRun('(11)94364-6430'),
               ]
             }),
           ],
@@ -112,6 +131,12 @@ export default function Home() {
       setIsAuthenticated(!!token);
     };
     checkToken();
+
+    const checkUser = async () => {
+      const user = await getUser();
+      setUser(user);
+    };
+    checkUser();
 
     const interval = setInterval(() => {
       checkToken();

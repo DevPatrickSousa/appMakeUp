@@ -34,3 +34,13 @@ export async function removeToken(){
     console.log(error);
   }
 }
+
+export async function getUser() {
+  try {
+    const user = await AsyncStorage.getItem('user');
+    return user;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
