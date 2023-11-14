@@ -5,14 +5,14 @@ import { home } from './styles';
 import { useNavigation } from '@react-navigation/native';
 import { AUTHENTICATION, CONTENT_TYPE, PHONE_NUMBER, API_KEY } from '@env';
 import { Card, Avatar } from '@rneui/themed';
-import { setToken, removeToken, getToken, getUser } from '../../utils/auth';
+import { setToken, removeToken, getToken, getUser, removeUser } from '../../utils/auth';
 import Toast from 'react-native-toast-message';
 import { Button, Dialog, Portal, PaperProvider } from 'react-native-paper';
 import Line from "../../components/Line";
 import ButtonComponent from "../../components/ButtonComponent";
 import LoadingComponent from "../../components/LoadingComponent";
 import api from '../../../services/api';
-import { Document, ImageRun, TextRun, Packer, Paragraph } from "docx";
+import { Document, ImageRun, TextRun, Packer, Paragraph, AlignmentType, HeadingLevel } from "docx";
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 
@@ -43,50 +43,64 @@ export default function Home() {
   }
 
   async function createDocx() {
-    const nome = 'Patrick'
-    const idade = 21
-    const email = 'patrickseven22@hotmail.com'
-    const num = '11943646430'
-
-    let doc = new Document({
-      sections: [
-        {
-          children: [
-            new Paragraph({
-              children: [
-                new TextRun('Patrick'),
-              ]
-            }),
-            new Paragraph({
-              children: [
-                new TextRun('21'),
-              ]
-            }),
-            new Paragraph({
-              children: [
-                new TextRun('patrickseven22@hotmail.com'),
-              ]
-            }),
-            new Paragraph({
-              children: [
-                new TextRun('(11)94364-6430'),
-              ]
-            }),
-          ],
-        },
-      ],
-    });
+      const userData = JSON.parse(user);
+      const nome = userData.nome;
+      const idade = userData.idade.toString();
+      const email = userData.email;
+      const num = userData.telefone.toString();
+      const title = 'BOLETIM DE OCORRÊNCIA';
   
-    Packer.toBase64String(doc).then((base64) => {
-      const fileName = FileSystem.documentDirectory + "emergencyDocPrototype.docx"
-      FileSystem.writeAsStringAsync(fileName, base64, {
-        encoding: FileSystem.EncodingType.Base64
-      }).then(() => {
-        Sharing.shareAsync(fileName);
-      }).catch((error) =>{
-        console.error(error);
-      })
-    })
+      let doc = new Document({
+        sections: [
+          {
+            children: [
+              new Paragraph({
+                alignment: AlignmentType.CENTER,
+                heading: HeadingLevel.TITLE,
+                children: [
+                  new TextRun(title),
+                ],
+              }),
+              new Paragraph({
+                children: [
+                  new TextRun(nome),
+                ],
+                spacing: {
+                  before: 200,
+                },
+              }),
+              new Paragraph({
+                children: [
+                  new TextRun(idade),
+                ],
+              }),
+              new Paragraph({
+                children: [
+                  new TextRun(email),
+                ],
+              }),
+              new Paragraph({
+                children: [
+                  new TextRun(num),
+                ],
+              }),
+            ],
+          },
+        ],
+      });
+  
+      await Packer.toBase64String(doc).then((base64) => {
+        const fileName = FileSystem.documentDirectory + 'emergencyDocPrototype.docx';
+        FileSystem.writeAsStringAsync(fileName, base64, {
+          encoding: FileSystem.EncodingType.Base64,
+        })
+          .then(() => {
+            Sharing.shareAsync(fileName);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      });
   }
   
   async function help() {
@@ -120,7 +134,6 @@ export default function Home() {
         removeToken();
       })
       .finally(async () => {
-        await removeToken();
         await closeDialog();
       })
   }
@@ -128,18 +141,33 @@ export default function Home() {
   useEffect(() => {
     const checkToken = async () => {
       const token = await getToken();
-      setIsAuthenticated(!!token);
+      const authenticated = !!token;
+      setIsAuthenticated(authenticated);
+  
+      if (!authenticated) {
+        await removeUser();
+      }
     };
     checkToken();
 
     const checkUser = async () => {
       const user = await getUser();
-      setUser(user);
+      if(user){
+        setUser(user);
+        console.log(user)
+      }else{
+        Toast.show({
+          type: 'error',
+          text1: 'Erro, usuário não encontrado!',
+          text2: 'Favor tentar novamente.'
+        });
+      }
     };
     checkUser();
 
     const interval = setInterval(() => {
       checkToken();
+      checkUser();
     }, 1000);
 
     return () => {
