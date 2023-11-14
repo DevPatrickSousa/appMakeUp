@@ -44,3 +44,13 @@ export async function getUser() {
     return null;
   }
 }
+
+export async function removeUser() {
+  try {
+    const user = await AsyncStorage.removeItem('user');
+    return user;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
