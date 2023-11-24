@@ -6,7 +6,7 @@ import ButtonComponent from "../../components/ButtonComponent/index"
 import Line from '../../components/Line';
 import InputComponent from '../../components/InputComponent/index';
 import { useFocusEffect } from "@react-navigation/native";
-import {AUTHENTICATION, CONTENT_TYPE} from '@env';
+import {AUTHENTICATION, CONTENT_TYPE, API_KEY} from '@env';
 import api from '../../../services/api';
 import { setToken, getToken } from "../../utils/auth";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,6 +16,7 @@ export default function Profile({ isAuthenticated, navigation }) {
   const [data, setData] = useState([{}]);
   const [name, setName] = useState('')
   const [number, setNumber] = useState('')
+  const [id, setId] = useState('')
 
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
@@ -23,13 +24,15 @@ export default function Profile({ isAuthenticated, navigation }) {
     },
   });
 
-  useEffect(() => {
+  useEffect(async () => {
     const checkAuthentication = async () => {
       if (!isAuthenticated) {
         navigation.navigate('Login');
       }
     };
     checkAuthentication();
+    const id = await AsyncStorage.getItem('user_id');
+    setId(id);
   }, [isAuthenticated, navigation]);
 
 
@@ -79,10 +82,10 @@ export default function Profile({ isAuthenticated, navigation }) {
     setStep(step - 1)
   }
   function nextStep(){
-    const contato = {"nome": name, "telefone": number}
+    const contato = {"nome": name, "telefone": number, "id": id}
     const updatedData = [
       ...data,
-      contato
+      contato,
     ]
     setData(updatedData);
     console.log(updatedData);
@@ -92,20 +95,33 @@ export default function Profile({ isAuthenticated, navigation }) {
   }
   async function saveContacts(){
     const token = await getToken();
-    const id = await AsyncStorage.getItem('user_id');
-    const apiUrl = '/contacts/?key=4dm1n';
+    
+    const apiUrl = `/contacts?key=${API_KEY}`;
     console.log(token);
     
-    const contato = {"nome": name, "telefone": number}
+    const contato = {"nome": name, "telefone": number, "id": id}
     const updatedData = [
       ...data,
       contato,
+      id,
     ]
-    setData(updatedData);
-    console.log('finalData', data);
     
+    setData(updatedData);
+
+    // const allContacts = updatedData.map((contato) => {
+      
+    // })
+  
     let option = { headers: { 'Content-Type': [CONTENT_TYPE], 'authorization': 'Bearer ' + token } }
-    await api.post(apiUrl, data, option)
+    await api.post(apiUrl, updatedData, option)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+
+    await api.get(`/contacts?key=${API_KEY}`, option)
     .then((res) => {
       console.log(res);
     })
