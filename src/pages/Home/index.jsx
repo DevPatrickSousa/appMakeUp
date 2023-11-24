@@ -153,7 +153,7 @@ export default function Home(){
       });
   
       await Packer.toBase64String(doc).then((base64) => {
-        const fileName = FileSystem.documentDirectory + 'emergencyDocPrototype.docx';
+        const fileName = FileSystem.documentDirectory + 'boletim_de_ocorrencia.docx';
         FileSystem.writeAsStringAsync(fileName, base64, {
           encoding: FileSystem.EncodingType.Base64,
         })
