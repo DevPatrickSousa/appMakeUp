@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Dialog, Portal, PaperProvider, Text } from 'react-native-paper';
 import { View, Image } from 'react-native';
-import { getToken, removeToken } from '../../utils/auth';
+import { getToken, removeToken, removeUser} from '../../utils/auth';
 import { loggoutStyles } from "./styles";
 import ButtonComponent from "../../components/ButtonComponent";
 import Line from "../../components/Line";
@@ -32,7 +32,7 @@ export default function Loggout(){
 
     async function userLogout(){
       setLoading(true);
-      try {
+      try{
         await removeToken();
         Toast.show({
           type: 'success',
@@ -41,8 +41,9 @@ export default function Loggout(){
         });
         await closeDialog();
         setIsAuthenticated(false);
+        await removeUser();
         setLoading(false);
-      } catch (error) {
+      }catch(error){
         console.log(error);
         Toast.show({
           type: 'error',
