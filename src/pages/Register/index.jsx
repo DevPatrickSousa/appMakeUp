@@ -6,7 +6,7 @@ import ButtonComponent from "../../components/ButtonComponent/index";
 import { register } from './styles';
 import Line from '../../components/Line';
 import api from '../../../services/api';
-import {AUTHENTICATION, CONTENT_TYPE} from '@env';
+import {AUTHENTICATION, CONTENT_TYPE, API_KEY} from '@env';
 import LoadingComponent from "../../components/LoadingComponent/index";
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
@@ -96,7 +96,7 @@ export default function Register() {
       telefone: number,
     }
   
-    await api.post('/registration?key=4dm1n', data, option)
+    await api.post(`/registration?key=${API_KEY}`, data, option)
       .then((res) => {
         clearInputs();
         Toast.show({

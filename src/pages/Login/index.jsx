@@ -6,7 +6,7 @@ import ButtonComponent from '../../components/ButtonComponent';
 import { loginStyles } from './styles'
 import Line from '../../components/Line';
 import { useNavigation } from '@react-navigation/native';
-import {AUTHENTICATION, CONTENT_TYPE} from '@env';
+import {AUTHENTICATION, CONTENT_TYPE, API_KEY} from '@env';
 import api from '../../../services/api';
 import LoadingComponent from "../../components/LoadingComponent/index";
 import Toast from 'react-native-toast-message';
@@ -36,7 +36,7 @@ export default function Login() {
       senha:password
     }
 
-    await api.post('/login?key=4dm1n', data, option)
+    await api.post(`/login?key=${API_KEY}`, data, option)
       .then(async (res) => {
         const user = res.data;
 
