@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
 import { home } from './styles';
-import { useNavigation } from '@react-navigation/native';
-import { AUTHENTICATION, CONTENT_TYPE, PHONE_NUMBER, API_KEY } from '@env';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { AUTHENTICATION, CONTENT_TYPE, PHONE_NUMBER, API_KEY, GOOGLE_API_KEY } from '@env';
 import { Card, Avatar } from '@rneui/themed';
 import { setToken, removeToken, getToken, getUser, removeUser } from '../../utils/auth';
 import Toast from 'react-native-toast-message';
@@ -15,8 +15,9 @@ import api from '../../../services/api';
 import { Document, ImageRun, TextRun, Packer, Paragraph, AlignmentType, HeadingLevel } from "docx";
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
+import { Audio } from 'expo-av';
 
-export default function Home() {
+export default function Home(){
   const [loaded] = useFonts({
     nunito: require('../../fonts/Nunito-Italic-VariableFont_wght.ttf'),
     montserrat: require('../../fonts/Montserrat-VariableFont_wght.ttf'),
@@ -28,21 +29,23 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
 
+  
+
   const navigation = useNavigation();
 
-  function goToProfilePage() {
+  function goToProfilePage(){
     navigation.navigate('Profile');
   }
 
-  function goToInformationsPage() {
+  function goToInformationsPage(){
     navigation.navigate('Informations');
   }
 
-  async function closeDialog() {
+  async function closeDialog(){
     setVisible(false);
   }
 
-  async function createDocx() {
+  async function createDocx(){
       const userData = JSON.parse(user);
       const nome = userData.nome;
       const idade = userData.idade.toString();
@@ -103,12 +106,12 @@ export default function Home() {
       });
   }
   
-  async function help() {
+  async function help(){
     await sendSMS();
     await createDocx();
   }
 
-  async function sendSMS() {
+  async function sendSMS(){
     const token = await setToken();
 
     let option = { headers: { 'Content-Type': [CONTENT_TYPE], 'authorization': 'Bearer ' + token } }
@@ -138,13 +141,73 @@ export default function Home() {
       })
   }
 
+  async function transcribeAudio(audioUri){
+    try{
+      const apiKey = GOOGLE_API_KEY;
+
+      const audioBase64 = await FileSystem.readAsStringAsync(audioUri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      
+      const body = {
+
+        // "config": {
+        //   "encoding": "LINEAR16",
+        //   "sampleRate": 41000,
+        //   "languageCode": "pt-BR"
+        // },
+        // "audio": {
+        //   "content": audioBase64
+        // }
+
+          "config": {
+              "encoding": "FLAC",
+              "sampleRateHertz": 16000,
+              "languageCode": "en-US",
+          },
+          "audio": {
+            "uri":"gs://cloud-samples-tests/speech/brooklyn.flac"
+        }
+      
+      };
+      
+      const transcriptResponse = await fetch(
+        `https://speech.googleapis.com/v1p1beta1/speech:recognize?key=${apiKey}`,
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      
+      const data = await transcriptResponse.json();
+      
+      const message = data.results && data.results[0].alternatives[0].transcript || "";
+
+      console.log('message:', message);
+
+      //message: how old is the Brooklyn Bridge
+
+
+      //definindo a keyword, nesse caso "Brooklyn";
+      // if(message.includes('Brooklyn')){
+      //   sendSMS();
+      // }
+    }catch(error) {
+      console.error("Error transcribing audio:", error);
+    }
+  }
+  
+
   useEffect(() => {
     const checkToken = async () => {
       const token = await getToken();
       const authenticated = !!token;
       setIsAuthenticated(authenticated);
   
-      if (!authenticated) {
+      if(!authenticated){
         await removeUser();
       }
     };
@@ -154,13 +217,6 @@ export default function Home() {
       const user = await getUser();
       if(user){
         setUser(user);
-        console.log(user)
-      }else{
-        Toast.show({
-          type: 'error',
-          text1: 'Erro, usuário não encontrado!',
-          text2: 'Favor tentar novamente.'
-        });
       }
     };
     checkUser();
@@ -175,6 +231,88 @@ export default function Home() {
     };
   }, []);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      let recordingInstance = null;
+
+      recordingOptions = {
+        isMeteringEnabled: true,
+        android: {
+          extension: '.m4a',
+          outputFormat: Audio.AndroidOutputFormat.MPEG_4,
+          audioEncoder: Audio.AndroidAudioEncoder.AAC,
+          sampleRate: 44100,
+          numberOfChannels: 2,
+          bitRate: 128000,
+        },
+        ios: {
+          extension: '.m4a',
+          outputFormat: Audio.IOSOutputFormat.MPEG4AAC,
+          audioQuality: Audio.IOSAudioQuality.MAX,
+          sampleRate: 44100,
+          numberOfChannels: 2,
+          bitRate: 128000,
+          linearPCMBitDepth: 16,
+          linearPCMIsBigEndian: false,
+          linearPCMIsFloat: false,
+        },
+        web: {
+          mimeType: 'audio/webm',
+          bitsPerSecond: 128000,
+        },
+      };
+  
+      const startRecording = async () => {
+        try{
+          await Audio.requestPermissionsAsync();
+          await Audio.setAudioModeAsync({
+            allowsRecordingIOS: true,
+            playsInSilentModeIOS: true,
+            shouldDuckAndroid: true,
+            playThroughEarpieceAndroid: true,
+          });
+  
+          if(!recordingInstance){
+            //starting to record
+            recordingInstance = new Audio.Recording();
+            await recordingInstance.prepareToRecordAsync(recordingOptions);
+            await recordingInstance.startAsync();
+          }else{
+            Toast.show({
+              type: 'Erro',
+              text1: 'Existe uma gravação em andamento!',
+            });
+          }
+        }catch(error){
+          console.error('Failed to start recording', error);
+        }
+      };
+  
+      startRecording();
+  
+      return async () => {
+        //stopping to record
+        if(recordingInstance){
+          try{
+            await recordingInstance.stopAndUnloadAsync();
+            const uri = recordingInstance.getURI();
+            if(uri){
+              //playing audio
+              const {sound} = await Audio.Sound.createAsync({uri: uri}, {shouldPlay: true});
+              await sound.setPositionAsync(0);
+              await sound.playAsync();
+              await transcribeAudio(uri);
+            }
+          }catch(error){
+            console.error('Failed to stop recording', error);
+          }finally{
+            recordingInstance = null;
+          }
+        }
+      };
+    }, [])
+  );
+  
   return (
     <View style={home.container}>
       <Avatar
