@@ -12,7 +12,7 @@ import Line from "../../components/Line";
 import ButtonComponent from "../../components/ButtonComponent";
 import LoadingComponent from "../../components/LoadingComponent";
 import api from '../../../services/api';
-import { Document, ImageRun, TextRun, Packer, Paragraph, AlignmentType, HeadingLevel } from "docx";
+import { Document, ImageRun, TextRun, Packer, Paragraph, AlignmentType, HeadingLevel, Header, SimpleField} from "docx";
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Audio } from 'expo-av';
@@ -47,44 +47,104 @@ export default function Home(){
 
   async function createDocx(){
       const userData = JSON.parse(user);
+      const title = 'BOLETIM DE OCORRÊNCIA';
       const nome = userData.nome;
       const idade = userData.idade.toString();
       const email = userData.email;
       const num = userData.telefone.toString();
-      const title = 'BOLETIM DE OCORRÊNCIA';
+      const detalhes = "Esta é uma mensagem padrão apenas para exemplificar."
+
+      const defaultInformations = {
+        nome: "Nome: ",
+        idade: "Idade: ",
+        email: "Email: ",
+        telefone: "Telefone: ",
+        data: "Data do fato: ",
+        detalhes: "Detalhes do ocorrido: "
+      }
   
       let doc = new Document({
-        sections: [
-          {
+        background: {
+          color: "b557db",
+        },
+        sections: [{
+          headers: {
+            default: new Header({
+                children: [
+                  new Paragraph({
+                    alignment: AlignmentType.CENTER,
+                    heading: HeadingLevel.TITLE,
+                    children: [
+                      new TextRun({text:title, color:"FFFFFF"}),
+                    ],
+                    border: {
+                      top: {
+                          color: "auto",
+                          space: 1,
+                          value: "single",
+                          size: 6,
+                      },
+                      bottom: {
+                          color: "auto",
+                          space: 1,
+                          value: "single",
+                          size: 6,
+                      },
+                      left: {
+                          color: "auto",
+                          space: 1,
+                          value: "single",
+                          size: 6,
+                      },
+                      right: {
+                          color: "auto",
+                          space: 1,
+                          value: "single",
+                          size: 6,
+                      },
+                  },
+                  })
+                ],
+            }),
+          },
             children: [
               new Paragraph({
-                alignment: AlignmentType.CENTER,
-                heading: HeadingLevel.TITLE,
                 children: [
-                  new TextRun(title),
-                ],
-              }),
-              new Paragraph({
-                children: [
-                  new TextRun(nome),
+                  new TextRun({text:defaultInformations.nome, color:"FFFFFF", size: 28,}),
+                  new TextRun({text:nome, color:"FFFFFF", size: 20,}),
                 ],
                 spacing: {
-                  before: 200,
+                  before: 300,
                 },
               }),
               new Paragraph({
                 children: [
-                  new TextRun(idade),
+                  new TextRun({text:defaultInformations.idade, color:"FFFFFF", size: 28,}),
+                  new TextRun({text:idade, color:"FFFFFF", size: 20,}),
                 ],
               }),
               new Paragraph({
                 children: [
-                  new TextRun(email),
+                  new TextRun({text:defaultInformations.email, color:"FFFFFF", size: 28,}),
+                  new TextRun({text:email, color:"FFFFFF", size: 20,}),
                 ],
               }),
               new Paragraph({
                 children: [
-                  new TextRun(num),
+                  new TextRun({text:defaultInformations.telefone, color:"FFFFFF", size: 28,}),
+                  new TextRun({text:num, color:"FFFFFF", size: 20,}),
+                ],
+              }),
+              new Paragraph({
+                children: [
+                  new TextRun({text:defaultInformations.data, color:"FFFFFF", size: 28,}),
+                  new SimpleField("DATE"),
+                ],
+              }),
+              new Paragraph({
+                children: [
+                  new TextRun({text:defaultInformations.detalhes, color:"FFFFFF", size: 28,}),
+                  new TextRun({text:detalhes, color:"FFFFFF", size: 20,}),
                 ],
               }),
             ],
