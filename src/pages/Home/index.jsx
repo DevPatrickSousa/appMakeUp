@@ -16,6 +16,7 @@ import { Document, ImageRun, TextRun, Packer, Paragraph, AlignmentType, HeadingL
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Audio } from 'expo-av';
+import { format } from 'date-fns';
 
 export default function Home(){
   const [loaded] = useFonts({
@@ -28,8 +29,6 @@ export default function Home(){
   const [visible, setVisible] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
-
-  
 
   const navigation = useNavigation();
 
@@ -46,13 +45,24 @@ export default function Home(){
   }
 
   async function createDocx(){
-      const userData = JSON.parse(user);
-      const title = 'BOLETIM DE OCORRÊNCIA';
-      const nome = userData.nome;
-      const idade = userData.idade.toString();
-      const email = userData.email;
-      const num = userData.telefone.toString();
-      const detalhes = "Esta é uma mensagem padrão apenas para exemplificar."
+    const title = 'BOLETIM DE OCORRÊNCIA';
+    let nome = "xxxxxx";
+    let idade = "xx";
+    let email = "xxxxxx@xxxx.com";
+    let num = "(xx)xxxxx-xxxx";
+    const detalhes = "Esta é uma mensagem padrão apenas para exemplificar."
+
+    const today = new Date();
+
+    const formattedDate = format(today, 'dd/MM/yyyy');
+
+      if(isAuthenticated){
+        userData = JSON.parse(user);
+        nome = userData.nome;
+        idade = userData.idade.toString();
+        email = userData.email;
+        num = userData.telefone.toString();
+      }
 
       const defaultInformations = {
         nome: "Nome: ",
@@ -62,10 +72,12 @@ export default function Home(){
         data: "Data do fato: ",
         detalhes: "Detalhes do ocorrido: "
       }
+
+      const black = "000000";
   
       let doc = new Document({
         background: {
-          color: "b557db",
+          color: "FFFFFF",
         },
         sections: [{
           headers: {
@@ -75,7 +87,7 @@ export default function Home(){
                     alignment: AlignmentType.CENTER,
                     heading: HeadingLevel.TITLE,
                     children: [
-                      new TextRun({text:title, color:"FFFFFF"}),
+                      new TextRun({text:title, color:black}),
                     ],
                     border: {
                       top: {
@@ -110,8 +122,8 @@ export default function Home(){
             children: [
               new Paragraph({
                 children: [
-                  new TextRun({text:defaultInformations.nome, color:"FFFFFF", size: 28,}),
-                  new TextRun({text:nome, color:"FFFFFF", size: 20,}),
+                  new TextRun({text:defaultInformations.nome, color:black, size: 28,}),
+                  new TextRun({text:nome, color:black, size: 20,}),
                 ],
                 spacing: {
                   before: 300,
@@ -119,32 +131,32 @@ export default function Home(){
               }),
               new Paragraph({
                 children: [
-                  new TextRun({text:defaultInformations.idade, color:"FFFFFF", size: 28,}),
-                  new TextRun({text:idade, color:"FFFFFF", size: 20,}),
+                  new TextRun({text:defaultInformations.idade, color:black, size: 28,}),
+                  new TextRun({text:idade, color:black, size: 20,}),
                 ],
               }),
               new Paragraph({
                 children: [
-                  new TextRun({text:defaultInformations.email, color:"FFFFFF", size: 28,}),
-                  new TextRun({text:email, color:"FFFFFF", size: 20,}),
+                  new TextRun({text:defaultInformations.email, color:black, size: 28,}),
+                  new TextRun({text:email, color:black, size: 20,}),
                 ],
               }),
               new Paragraph({
                 children: [
-                  new TextRun({text:defaultInformations.telefone, color:"FFFFFF", size: 28,}),
-                  new TextRun({text:num, color:"FFFFFF", size: 20,}),
+                  new TextRun({text:defaultInformations.telefone, color:black, size: 28,}),
+                  new TextRun({text:num, color:black, size: 20,}),
                 ],
               }),
               new Paragraph({
                 children: [
-                  new TextRun({text:defaultInformations.data, color:"FFFFFF", size: 28,}),
-                  new SimpleField("DATE"),
+                  new TextRun({text:defaultInformations.data, color:black, size: 28,}),
+                  new TextRun({text:formattedDate, color:black, size: 20,}),
                 ],
               }),
               new Paragraph({
                 children: [
-                  new TextRun({text:defaultInformations.detalhes, color:"FFFFFF", size: 28,}),
-                  new TextRun({text:detalhes, color:"FFFFFF", size: 20,}),
+                  new TextRun({text:defaultInformations.detalhes, color:black, size: 28,}),
+                  new TextRun({text:detalhes, color:black, size: 20,}),
                 ],
               }),
             ],
@@ -167,8 +179,15 @@ export default function Home(){
   }
   
   async function help(){
+   try{
     await sendSMS();
     await createDocx();
+   }catch(error) {
+    Toast.show({
+      type: 'error',
+      text1: 'Erro, favor tentar novamente.',
+    });
+   }
   }
 
   async function sendSMS(){
@@ -194,10 +213,10 @@ export default function Home(){
           text1: 'Erro ao enviar mensagem!',
           text2: 'Favor tentar novamente.'
         });
-        removeToken();
       })
       .finally(async () => {
         await closeDialog();
+        removeToken();
       })
   }
 
@@ -246,20 +265,16 @@ export default function Home(){
       
       const message = data.results && data.results[0].alternatives[0].transcript || "";
 
-      console.log('message:', message);
-
       //message: how old is the Brooklyn Bridge
 
-
       //definindo a keyword, nesse caso "Brooklyn";
-      // if(message.includes('Brooklyn')){
-      //   sendSMS();
-      // }
-    }catch(error) {
+      if(message.includes('Brooklyn')){
+        sendSMS();
+      }
+    }catch(error){
       console.error("Error transcribing audio:", error);
     }
   }
-  
 
   useEffect(() => {
     const checkToken = async () => {
@@ -277,6 +292,8 @@ export default function Home(){
       const user = await getUser();
       if(user){
         setUser(user);
+      }else{
+        setUser({});
       }
     };
     checkUser();
