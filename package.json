@@ -17,6 +17,7 @@
     "@react-navigation/native": "^6.1.7",
     "@rneui/themed": "^4.0.0-rc.8",
     "axios": "^1.4.0",
+    "date-fns": "^2.30.0",
     "docx": "^8.2.4",
     "expo": "^49.0.13",
     "expo-av": "~13.4.1",
