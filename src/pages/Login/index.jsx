@@ -21,6 +21,8 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const navigation = useNavigation();
+
   function goToHomePage() {
     navigation.navigate('Home');
   }
@@ -61,7 +63,6 @@ export default function Login() {
       })
   }
 
-  const navigation = useNavigation();
   return (
     <View style={loginStyles.cardContainer}>
         <View style={loginStyles.avatarContainer}>
