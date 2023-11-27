@@ -3,7 +3,7 @@ import api from '../../services/api';
 import {AUTHENTICATION, API_KEY} from '@env';
 
 export async function setToken() {
-  try {
+  try{
     let tokenOptions = { headers: { "authentication": AUTHENTICATION }}
     const response = await api.get(`/getToken?t=${API_KEY}`, tokenOptions);
     const token = response.data.token;
@@ -11,46 +11,46 @@ export async function setToken() {
     await AsyncStorage.setItem('authToken', token);
 
     return token;
-  } catch (error) {
-    console.log(error);
+  }catch(error){
+    console.error(error);
     return null;
   }
 }
 
 export async function getToken() {
-  try {
+  try{
     const token = await AsyncStorage.getItem('authToken');
     return token;
-  } catch (error) {
-    console.log(error);
+  }catch(error){
+    console.error(error);
     return null;
   }
 }
 
 export async function removeToken(){
-  try {
+  try{
     await AsyncStorage.removeItem('authToken')
-  } catch (error) {
-    console.log(error);
+  }catch (error) {
+    console.error(error);
   }
 }
 
 export async function getUser() {
-  try {
+  try{
     const user = await AsyncStorage.getItem('user');
     return user;
-  } catch (error) {
-    console.log(error);
+  }catch(error){
+    console.error(error);
     return null;
   }
 }
 
 export async function removeUser() {
-  try {
+  try{
     const user = await AsyncStorage.removeItem('user');
     return user;
-  } catch (error) {
-    console.log(error);
+  }catch(error){
+    console.error(error);
     return null;
   }
 }
