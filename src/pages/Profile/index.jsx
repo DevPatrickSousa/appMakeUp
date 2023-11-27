@@ -35,14 +35,13 @@ export default function Profile({ isAuthenticated, navigation }) {
     setId(id);
   }, [isAuthenticated, navigation]);
 
-
   const formSteps = [
     {
       title: "Informações pessoais",
       content: (
         <View style={profile.actionCard}>
           <InputComponent minWidthContainer={280} minHeight={55} placeholder="Digite o nome do contato" value={name} onChangeText={(text) => setName(text)}/>
-          <InputComponent minWidthContainer={280} minHeight={55} placeholder="Digite o telefone" value={number} onChangeText={(text) => setNumber(text)}/>
+          <InputComponent minWidthContainer={280} minHeight={55} placeholder="Digite o telefone" inputMode='numeric' value={number} onChangeText={(text) => setNumber(text)}/>
           <ButtonComponent color="#e989ff" minWidth={200} minHeightButton={55} borderRadius={10} borderColor='#ffbbca' rightIconName="arrow-right" onRightIconPress={nextStep} title="contato 1"/>
         </View>
       ),
@@ -52,7 +51,7 @@ export default function Profile({ isAuthenticated, navigation }) {
       content: (
         <View style={profile.actionCard}>
           <InputComponent minWidthContainer={280} minHeight={55} placeholder="Digite o nome do contato" value={name} onChangeText={(text) => setName(text)}/>
-          <InputComponent minWidthContainer={280} minHeight={55} placeholder="Digite o telefone" value={number} onChangeText={(text) => setNumber(text)}/>
+          <InputComponent minWidthContainer={280} minHeight={55} placeholder="Digite o telefone" inputMode='numeric' value={number} onChangeText={(text) => setNumber(text)}/>
           <ButtonComponent minWidth={200} minHeightButton={55} borderRadius={10} color="#e989ff" borderColor='#ffbbca' onRightIconPress={nextStep} onLeftIconPress={previousStep} leftIconName="arrow-left" rightIconName="arrow-right" title="contato 2"/>
         </View>
       ),
@@ -62,7 +61,7 @@ export default function Profile({ isAuthenticated, navigation }) {
       content: (
         <View style={profile.actionCard}>
           <InputComponent minWidthContainer={280} minHeight={55} placeholder="Digite o nome do contato" value={name} onChangeText={(text) => setName(text)}/>
-          <InputComponent minWidthContainer={280} minHeight={55} placeholder="Digite o telefone" value={number} onChangeText={(text) => setNumber(text)}/>
+          <InputComponent minWidthContainer={280} minHeight={55} placeholder="Digite o telefone" inputMode='numeric' value={number} onChangeText={(text) => setNumber(text)}/>
       
           <View style={profile.buttonContainer}>
           <ButtonComponent minWidth={150} minHeightButton={55} maxHeight={55} borderRadius={10} color="#e989ff" borderColor='#ffbbca' onLeftIconPress={previousStep} leftIconName="arrow-left" title="contato 3"/>
@@ -77,57 +76,52 @@ export default function Profile({ isAuthenticated, navigation }) {
     if (data.length > 0) {
       const updatedData = data.slice(0, -1);
       setData(updatedData);
-      console.log(updatedData);
     }
     setStep(step - 1)
   }
+
   function nextStep(){
-    const contato = {"nome": name, "telefone": number, "id": id}
+    const contato = {"nome": name, "telefone": number, "id_pessoa": id}
     const updatedData = [
       ...data,
       contato,
     ]
     setData(updatedData);
-    console.log(updatedData);
     setName('');
     setNumber('');
     setStep(step + 1);
   }
-  async function saveContacts(){
+  
+  async function saveContacts() {
     const token = await getToken();
-    
     const apiUrl = `/contacts?key=${API_KEY}`;
-    console.log(token);
-    
-    const contato = {"nome": name, "telefone": number, "id": id}
+
+    const contato = {"nome": name, "telefone": number, "id_pessoa": id}
+
     const updatedData = [
       ...data,
       contato,
-      id,
     ]
-    
+
     setData(updatedData);
-
-    // const allContacts = updatedData.map((contato) => {
-      
-    // })
   
-    let option = { headers: { 'Content-Type': [CONTENT_TYPE], 'authorization': 'Bearer ' + token } }
-    await api.post(apiUrl, updatedData, option)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-
-    await api.get(`/contacts?key=${API_KEY}`, option)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+    const allContacts = updatedData.map(async (item) => {
+      const option = {
+        headers: {
+          'Content-Type': CONTENT_TYPE,
+          'authorization': 'Bearer ' + token
+        }
+      };
+  
+      try{
+        await api.post(apiUrl, item, option);
+      }catch(error){
+        console.error('Error:', error);
+      }
+    });
+  
+    //waiting to request one-per-one of all the contacts 
+    await Promise.all(allContacts); 
   }
 
   //everytime we re-open the page we clear the states.
