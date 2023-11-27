@@ -216,7 +216,7 @@ export default function Home(){
       })
       .finally(async () => {
         await closeDialog();
-        removeToken();
+        await removeToken();
       })
   }
 
@@ -268,9 +268,9 @@ export default function Home(){
       //message: how old is the Brooklyn Bridge
 
       //definindo a keyword, nesse caso "Brooklyn";
-      if(message.includes('Brooklyn')){
-        sendSMS();
-      }
+      // if(message.includes('Brooklyn')){
+      //   sendSMS();
+      // }
     }catch(error){
       console.error("Error transcribing audio:", error);
     }

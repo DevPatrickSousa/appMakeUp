@@ -5,11 +5,12 @@ import {profile} from "./styles"
 import ButtonComponent from "../../components/ButtonComponent/index"
 import Line from '../../components/Line';
 import InputComponent from '../../components/InputComponent/index';
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import {AUTHENTICATION, CONTENT_TYPE, API_KEY} from '@env';
 import api from '../../../services/api';
 import { setToken, getToken } from "../../utils/auth";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
 export default function Profile({ isAuthenticated, navigation }) {
   const [step, setStep] = useState(0);
@@ -23,6 +24,10 @@ export default function Profile({ isAuthenticated, navigation }) {
       step,
     },
   });
+
+  async function goToHomePage() {
+    navigation.navigate('Home');
+  }
 
   useEffect(async () => {
     const checkAuthentication = async () => {
@@ -73,7 +78,7 @@ export default function Profile({ isAuthenticated, navigation }) {
   ];
 
   function previousStep(){
-    if (data.length > 0) {
+    if(data.length > 0){
       const updatedData = data.slice(0, -1);
       setData(updatedData);
     }
@@ -115,8 +120,18 @@ export default function Profile({ isAuthenticated, navigation }) {
   
       try{
         await api.post(apiUrl, item, option);
+        Toast.show({
+          type: 'success',
+          text1: 'Contatos cadastrados com sucesso!',
+        });
+        await goToHomePage();
       }catch(error){
         console.error('Error:', error);
+        Toast.show({
+          type: 'error',
+          text1: 'Erro ao cadastrar os contatos.!',
+          text2: 'Favor tentar novamente.!',
+        });
       }
     });
   
@@ -128,7 +143,6 @@ export default function Profile({ isAuthenticated, navigation }) {
   useFocusEffect(
     React.useCallback(() => {
       setStep(0);
-      setData([]);
     }, [])
   );
 
