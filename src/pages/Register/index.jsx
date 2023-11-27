@@ -109,7 +109,7 @@ export default function Register() {
         }, 2000);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         Toast.show({
           type: 'error',
           text1: 'Erro ao cadastrar usuário!!',
@@ -136,10 +136,10 @@ export default function Register() {
         </View>
           <View style={register.actionCard}>
             <InputComponent minHeight={35} minWidthContainer={280} placeholder="Digite o seu Nome" value={userName} onChangeText={(text) => setName(text)} />
-            <InputComponent minHeight={35} minWidthContainer={280} placeholder="Digite a sua Idade" inputMode={'numeric'} value={age} onChangeText={(text) => setAge(text)} />
+            <InputComponent minHeight={35} minWidthContainer={280} placeholder="Digite a sua Idade" inputMode='numeric' value={age} onChangeText={(text) => setAge(text)} />
             <InputComponent minHeight={35} minWidthContainer={280} placeholder="Digite o seu email" value={email} onChangeText={(text) => setEmail(text)} />
             <InputComponent minHeight={35} minWidthContainer={280} placeholder="Digite a sua senha" secureTextEntry={true} value={password} onChangeText={(text) => setPassword(text)} />
-            <InputComponent minHeight={35} minWidthContainer={280} placeholder="Digite o seu telefone" inputMode={'numeric'} value={number} onChangeText={(text) => setNumber(text)} />
+            <InputComponent minHeight={35} minWidthContainer={280} placeholder="Digite o seu telefone" inputMode='numeric' value={number} onChangeText={(text) => setNumber(text)} />
             <ButtonComponent minWidthContainer={280} color="#e989ff" minWidth={200} title="Cadastrar" borderRadius={10} onPress={userRegister}/>
             <View>
             <LoadingComponent visible={loading}/>

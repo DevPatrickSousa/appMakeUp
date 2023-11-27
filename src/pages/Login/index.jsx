@@ -47,7 +47,7 @@ export default function Login() {
           goToHomePage();
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         Toast.show({
           type: 'error',
           text1: 'Erro ao realizar login!',
