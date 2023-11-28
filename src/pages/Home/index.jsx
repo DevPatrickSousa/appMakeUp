@@ -267,7 +267,7 @@ export default function Home(){
 
       //message: how old is the Brooklyn Bridge
 
-      //definindo a keyword, nesse caso "Brooklyn";
+      //defining the keyword, in this case "Brooklyn";
       // if(message.includes('Brooklyn')){
       //   sendSMS();
       // }
