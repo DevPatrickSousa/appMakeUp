@@ -8,7 +8,7 @@ import InputComponent from '../../components/InputComponent/index';
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import {AUTHENTICATION, CONTENT_TYPE, API_KEY} from '@env';
 import api from '../../../services/api';
-import { setToken, getToken } from "../../utils/auth";
+import { setToken, getToken, getUser } from "../../utils/auth";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 import LoadingComponent from "../../components/LoadingComponent/index";
@@ -38,8 +38,10 @@ export default function Profile({ isAuthenticated, navigation }) {
       }
     };
     checkAuthentication();
-    const id = await AsyncStorage.getItem('user_id');
-    setId(id);
+    const user = await getUser();
+    const userParsed = JSON.parse(user);
+    const userId = userParsed._id;
+    setId(userId);
   }, [isAuthenticated, navigation]);
 
   const formSteps = [
@@ -140,14 +142,13 @@ export default function Profile({ isAuthenticated, navigation }) {
   
     //waiting to request one-per-one of all the contacts 
     await Promise.all(allContacts);
-    setLoading(false); 
+    setLoading(false);
   }
 
   //everytime we re-open the page we clear the states.
   useFocusEffect(
     React.useCallback(() => {
       setStep(0);
-      setData([])
     }, [])
   );
 
