@@ -44,9 +44,9 @@ export default function Login() {
 
         const userString = JSON.stringify(user);
 
-          await AsyncStorage.setItem('user', userString);
+        await AsyncStorage.setItem('user', userString);
 
-          goToHomePage();
+        goToHomePage();
       })
       .catch((error) => {
         console.error(error);
