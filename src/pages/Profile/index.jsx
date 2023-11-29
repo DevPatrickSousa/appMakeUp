@@ -11,6 +11,7 @@ import api from '../../../services/api';
 import { setToken, getToken } from "../../utils/auth";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
+import LoadingComponent from "../../components/LoadingComponent/index";
 
 export default function Profile({ isAuthenticated, navigation }) {
   const [step, setStep] = useState(0);
@@ -18,6 +19,7 @@ export default function Profile({ isAuthenticated, navigation }) {
   const [name, setName] = useState('')
   const [number, setNumber] = useState('')
   const [id, setId] = useState('')
+  const [loading, setLoading] = useState(false);
 
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
@@ -98,6 +100,7 @@ export default function Profile({ isAuthenticated, navigation }) {
   }
   
   async function saveContacts() {
+    setLoading(true);
     const token = await getToken();
     const apiUrl = `/contacts?key=${API_KEY}`;
 
@@ -136,13 +139,15 @@ export default function Profile({ isAuthenticated, navigation }) {
     });
   
     //waiting to request one-per-one of all the contacts 
-    await Promise.all(allContacts); 
+    await Promise.all(allContacts);
+    setLoading(false); 
   }
 
   //everytime we re-open the page we clear the states.
   useFocusEffect(
     React.useCallback(() => {
       setStep(0);
+      setData([])
     }, [])
   );
 
@@ -160,6 +165,7 @@ export default function Profile({ isAuthenticated, navigation }) {
                 </View>
           </View>
           {formSteps[step].content}
+          <LoadingComponent visible={loading}/>
         </View>
     
     );
