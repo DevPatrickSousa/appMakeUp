@@ -17,6 +17,7 @@ import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Audio } from 'expo-av';
 import { format } from 'date-fns';
+import * as Location from 'expo-location';
 
 export default function Home(){
   const [loaded] = useFonts({
@@ -29,6 +30,9 @@ export default function Home(){
   const [visible, setVisible] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [smsLocation, setsmsLocation] = useState(null);
 
   const navigation = useNavigation();
 
@@ -196,7 +200,7 @@ export default function Home(){
     let option = { headers: { 'Content-Type': [CONTENT_TYPE], 'authorization': 'Bearer ' + token } }
 
     const data = {
-      msg: 'ESTOU EM PERIGO, POR FAVOR ME AJUDE!'
+      msg: 'ESTOU EM PERIGO, POR FAVOR ME AJUDE!' + ' ' + '-' + ' ' + 'Localização:' + ' ' + smsLocation
     }
 
     await api.post(`/sendMsg/sos/${PHONE_NUMBER}?key=${API_KEY}`, data, option)
@@ -275,7 +279,7 @@ export default function Home(){
       console.error("Error transcribing audio:", error);
     }
   }
-
+  
   useEffect(() => {
     const checkToken = async () => {
       const token = await getToken();
@@ -298,9 +302,31 @@ export default function Home(){
     };
     checkUser();
 
+    const getlocation = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      
+      if(errorMsg){
+        setsmsLocation(errorMsg);
+      }else if(location){
+        let latitude = location.coords.latitude;
+        let longitude = location.coords.longitude;
+        let textLocation = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+        setsmsLocation(textLocation);
+      }
+    }
+
     const interval = setInterval(() => {
       checkToken();
       checkUser();
+      getlocation();
     }, 1000);
 
     return () => {
