@@ -76,6 +76,8 @@ export const laws = StyleSheet.create({
         borderRadius: 10,
         borderColor:'#FFFF',
         alignItems:'center',
+        minHeight:200,
+        minWidth:360, 
     },
     cardImage:{
         height:170,
