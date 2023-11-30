@@ -78,7 +78,7 @@ export const UsefulInformationsStyles = StyleSheet.create({
         borderColor:'#FFFF',
         alignItems:'center',
         minHeight:200,
-        minWidth:360, 
+        width:310
     },
     cardImage:{
         height:170,
