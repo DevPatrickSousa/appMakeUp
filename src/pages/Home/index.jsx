@@ -183,15 +183,21 @@ export default function Home(){
   }
   
   async function help(){
-   try{
-    await sendSMS();
-    await createDocx();
-   }catch(error) {
-    Toast.show({
-      type: 'error',
-      text1: 'Erro, favor tentar novamente.',
-    });
-   }
+    try{
+      if(isAuthenticated){
+        await sendSMS();
+        await apoio();
+      }else{
+        await sendSMSAndRemoveToken();
+      }
+      await createDocx();
+    }catch(error){
+      console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: 'Erro, favor tentar novamente.',
+      });
+    }
   }
 
   async function sendSMS(){
@@ -220,9 +226,50 @@ export default function Home(){
       })
       .finally(async () => {
         await closeDialog();
-        await removeToken();
       })
   }
+
+  async function sendSMSAndRemoveToken(){
+    await sendSMS();
+    await removeToken();
+  }
+
+  async function apoio(){
+    const token = await setToken();
+
+    let option = { headers: { 'Content-Type': [CONTENT_TYPE], 'authorization': 'Bearer ' + token } }
+
+    if(isAuthenticated && user){
+      let userData = JSON.parse(user)
+      const data = {
+        id_usuario: userData._id,
+        dt_solic_apoio:new Date()
+      }
+      await api.post(`/contacts/?key=${API_KEY}`, data, option)
+      .then((res) => {
+        Toast.show({
+          type: 'success',
+          text1: 'Solicitação de apoio cadastrada com sucesso!',
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        Toast.show({
+          type: 'error',
+          text1: 'Erro ao cadastrar solicitação de apoio!',
+          text2: 'Favor tentar novamente.'
+        });
+      })
+      .finally(async () => {
+        await closeDialog();
+        if(!isAuthenticated && !user){
+          await removeToken();
+        }
+      })
+    }
+  }
+
+  
 
   async function transcribeAudio(audioUri){
     try{
